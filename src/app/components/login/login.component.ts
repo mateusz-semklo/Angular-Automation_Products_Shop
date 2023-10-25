@@ -15,7 +15,7 @@ export class LoginComponent {
 
   form: FormGroup = new FormGroup({username: new FormControl, password: new FormControl});
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(public auth: AuthService, private router: Router) {
   }
 
   signIn() {

@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from "./services/auth.service";
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {AuthGuardService} from "./services/auth-guard.service";
 
 @NgModule({
   declarations: [
@@ -39,17 +40,22 @@ import {HttpClientModule} from "@angular/common/http";
       {path: '', component: HomeComponent},
       {path: 'products', component: ProductsComponent},
       {path: 'shopping-cart', component: ShoppingCartComponent},
-      {path: 'check-out', component: CheckOutComponent},
-      {path: 'order-success', component: OrderSuccessComponent},
-      {path: 'my/orders', component: MyOrdersComponent},
       {path: 'login', component: LoginComponent},
-      {path: 'admin/products', component: AdminProductsComponent},
-      {path: 'admin/orders', component: AdminOrdersComponent}
+
+      {path: 'check-out', component: CheckOutComponent,canActivate:[AuthGuardService]},
+      {path: 'order-success', component: OrderSuccessComponent,canActivate:[AuthGuardService]},
+      {path: 'my/orders', component: MyOrdersComponent,canActivate:[AuthGuardService]},
+
+      {path: 'admin/products', component: AdminProductsComponent,canActivate:[AuthGuardService]},
+      {path: 'admin/orders', component: AdminOrdersComponent,canActivate:[AuthGuardService]}
     ]),
     NgbModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    AuthGuardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
