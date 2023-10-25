@@ -14,6 +14,9 @@ import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orde
 import {RouterModule} from "@angular/router";
 import { LoginComponent } from './components/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AuthService} from "./services/auth.service";
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -31,20 +34,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot([
-      {path:'',component:HomeComponent},
-      {path:'products',component:ProductsComponent},
-      {path:'shopping-cart',component:ShoppingCartComponent},
-      {path:'check-out',component:CheckOutComponent},
-      {path:'order-success',component:OrderSuccessComponent},
-      {path:'my/orders',component:MyOrdersComponent},
-      {path:'login',component:LoginComponent},
-      {path:'admin/products',component:AdminProductsComponent},
-      {path:'admin/orders',component:AdminOrdersComponent}
+      {path: '', component: HomeComponent},
+      {path: 'products', component: ProductsComponent},
+      {path: 'shopping-cart', component: ShoppingCartComponent},
+      {path: 'check-out', component: CheckOutComponent},
+      {path: 'order-success', component: OrderSuccessComponent},
+      {path: 'my/orders', component: MyOrdersComponent},
+      {path: 'login', component: LoginComponent},
+      {path: 'admin/products', component: AdminProductsComponent},
+      {path: 'admin/orders', component: AdminOrdersComponent}
     ]),
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
