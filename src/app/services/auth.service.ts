@@ -7,7 +7,8 @@ import {ForbiddenError} from "../common/errors/ForbiddenError";
 import {BadRequestError} from "../common/errors/BadRequestError";
 import {NotFoundError} from "../common/errors/NotFoundError";
 import * as jose from 'jose';
-import {JWTExpired} from "jose/dist/types/util/errors";
+import {Router} from "@angular/router";
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
   url:string="http://localhost:8080/authenticate";
 
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,private router:Router) { }
 
   login(credentials:{username:string,password:string}){
     return this.httpClient.post(this.url,credentials,{responseType:"text",observe:"response" })
@@ -36,6 +37,7 @@ export class AuthService {
   logout(){
     if(localStorage.getItem("token")) {
       localStorage.removeItem("token");
+      this.router.navigate(["/"])
     }
   }
 
@@ -45,6 +47,20 @@ export class AuthService {
       return null;
 
     return jose.decodeJwt(token).sub;
+  }
+
+  isAdmin(){
+
+    if(!this.isLoggedIn())
+      return false;
+
+    let token=localStorage.getItem("token");
+    if(token!=null) {
+      let role: string = <string>jose.decodeJwt(token).aud;
+      if (role.includes("ROLE_ADMIN"))
+        return true;
+    }
+    return false;
   }
 
   isLoggedIn() {
