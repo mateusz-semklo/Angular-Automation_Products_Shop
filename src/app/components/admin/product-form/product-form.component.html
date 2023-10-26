@@ -1,0 +1,34 @@
+<form>
+  <div>
+    <label class="form-label" for="productName">Nazwa produktu:</label>
+    <input class="form-control" type="text" id="productName" placeholder="Wpisz nazwę produktu" name="productName">
+  </div>
+  <div>
+    <label class="form-label" for="productPrice">Cena:</label>
+    <div class="input-group">
+      <span class="input-group-text" id="basic-addon1">zł</span>
+      <input class="form-control" type="number" id="productPrice" placeholder="Wpisz cenę" name="productPrice">
+    </div>
+  </div>
+  <div>
+    <label class="form-label" for="productImageUrl">URL zdjęcia</label>
+    <input class="form-control" type="text" id="productImageUrl" placeholder="Podaj adres url zdjęcia" name="productImageUrl">
+  </div>
+  <div>
+    <label class="form-label" for="category">Wybierz kategorie:</label>
+    <select class="form-select" id="category" name="category">
+      <option>1000</option>
+      <option>1001</option>
+      <option>1002</option>
+      <option>1003</option>
+      <option>1004</option>
+      <option>1005</option>
+    </select>
+  </div>
+  <div>
+    <label class="form-label" for="productDescription">Opis produktu:</label>
+    <textarea class="form-control" id="productDescription" name="productDescription" rows="3"></textarea>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Dodaj produkt</button>
+</form>

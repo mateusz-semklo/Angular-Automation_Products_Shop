@@ -19,6 +19,13 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthGuardService} from "./services/auth-guard.service";
 import {AdminAuthGuardService} from "./services/admin-auth-guard.service";
+import {ProductFormComponent} from "./components/admin/product-form/product-form.component";
+import {DataService} from "./services/data/data.service";
+import {UserService} from "./services/data/users/user.service";
+import {CategoryService} from "./services/data/categories/category.service";
+import {ProductService} from "./services/data/products/product.service";
+import {OrderService} from "./services/data/orders/order.service";
+
 
 @NgModule({
   declarations: [
@@ -32,7 +39,8 @@ import {AdminAuthGuardService} from "./services/admin-auth-guard.service";
     MyOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    LoginComponent
+    LoginComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +56,9 @@ import {AdminAuthGuardService} from "./services/admin-auth-guard.service";
       {path: 'my/orders', component: MyOrdersComponent,canActivate:[AuthGuardService]},
 
       {path: 'admin/products', component: AdminProductsComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
+      {path: 'admin/products/new', component: ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path: 'admin/orders', component: AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]}
+
     ]),
     NgbModule,
     ReactiveFormsModule,
@@ -56,7 +66,12 @@ import {AdminAuthGuardService} from "./services/admin-auth-guard.service";
   providers: [
     AuthService,
     AuthGuardService,
-    AdminAuthGuardService
+    AdminAuthGuardService,
+    DataService,
+    UserService,
+    CategoryService,
+    ProductService,
+    OrderService
   ],
   bootstrap: [AppComponent]
 })
