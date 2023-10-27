@@ -13,7 +13,11 @@ import {AppError} from "../../common/errors/AppError";
 export class LoginComponent {
   invalidLogin: boolean = false;
 
-  form: FormGroup = new FormGroup({username: new FormControl, password: new FormControl});
+  form: FormGroup = new FormGroup({
+      username: new FormControl(),
+      password: new FormControl()
+    }
+  );
 
   constructor(public auth: AuthService, private router: Router) {
   }

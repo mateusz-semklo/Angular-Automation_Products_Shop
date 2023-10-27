@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,6 +24,8 @@ import {UserService} from "./services/data/users/user.service";
 import {CategoryService} from "./services/data/categories/category.service";
 import {ProductService} from "./services/data/products/product.service";
 import {OrderService} from "./services/data/orders/order.service";
+import { CustomFormsModule } from 'ng2-validation'
+import {NgOptimizedImage} from "@angular/common";
 
 
 @NgModule({
@@ -51,17 +52,26 @@ import {OrderService} from "./services/data/orders/order.service";
       {path: 'shopping-cart', component: ShoppingCartComponent},
       {path: 'login', component: LoginComponent},
 
-      {path: 'check-out', component: CheckOutComponent,canActivate:[AuthGuardService]},
-      {path: 'order-success', component: OrderSuccessComponent,canActivate:[AuthGuardService]},
-      {path: 'my/orders', component: MyOrdersComponent,canActivate:[AuthGuardService]},
+      {path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
+      {path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
+      {path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService]},
 
-      {path: 'admin/products', component: AdminProductsComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
-      {path: 'admin/products/new', component: ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
-      {path: 'admin/orders', component: AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]}
+      {
+        path: 'admin/products',
+        component: AdminProductsComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      {
+        path: 'admin/products/product-form',
+        component: ProductFormComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      {path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuardService, AdminAuthGuardService]}
 
     ]),
     NgbModule,
     ReactiveFormsModule,
+    NgOptimizedImage,
   ],
   providers: [
     AuthService,

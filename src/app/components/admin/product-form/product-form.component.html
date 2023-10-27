@@ -1,34 +1,63 @@
-<form>
-  <div>
-    <label class="form-label" for="productName">Nazwa produktu:</label>
-    <input class="form-control" type="text" id="productName" placeholder="Wpisz nazwę produktu" name="productName">
-  </div>
-  <div>
-    <label class="form-label" for="productPrice">Cena:</label>
-    <div class="input-group">
-      <span class="input-group-text" id="basic-addon1">zł</span>
-      <input class="form-control" type="number" id="productPrice" placeholder="Wpisz cenę" name="productPrice">
-    </div>
-  </div>
-  <div>
-    <label class="form-label" for="productImageUrl">URL zdjęcia</label>
-    <input class="form-control" type="text" id="productImageUrl" placeholder="Podaj adres url zdjęcia" name="productImageUrl">
-  </div>
-  <div>
-    <label class="form-label" for="category">Wybierz kategorie:</label>
-    <select class="form-select" id="category" name="category">
-      <option>1000</option>
-      <option>1001</option>
-      <option>1002</option>
-      <option>1003</option>
-      <option>1004</option>
-      <option>1005</option>
-    </select>
-  </div>
-  <div>
-    <label class="form-label" for="productDescription">Opis produktu:</label>
-    <textarea class="form-control" id="productDescription" name="productDescription" rows="3"></textarea>
-  </div>
+<div class="row">
+  <div class="col-md-6">
+    <form [formGroup]="form" (ngSubmit)="create()">
+      <div>
+        <label class="form-label" for="productName">Nazwa produktu:</label>
+        <input class="form-control" formControlName="productName" type="text" id="productName" placeholder="Wpisz nazwę produktu" name="productName">
+        <div class="alert alert-danger" *ngIf="form.get('productName')?.touched && form.get('productName')?.invalid">
+          Nazwa produktu jest wymagana.
+        </div>
+      </div>
+      <div>
+        <label class="form-label" for="productPrice">Cena:</label>
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">zł</span>
+          <input class="form-control" formControlName="productPrice" type="number" id="productPrice" placeholder="Wpisz cenę" name="productPrice">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('productPrice')?.touched && form.get('productPrice')?.invalid">
+          <div *ngIf="form.get('productPrice')?.getError('required')">Cena produktu jest wymagana.</div>
+          <div *ngIf="form.get('productPrice')?.getError('min')">Cena musi być większa od zera</div>
+        </div>
+      </div>
+      <div>
+        <label class="form-label" for="productImageUrl">Adres URL zdjęcia:</label>
+        <input class="form-control" formControlName="productImageUrl" type="text" id="productImageUrl" placeholder="Podaj adres url zdjęcia" name="productImageUrl">
+        <div class="alert alert-danger" *ngIf="form.get('productImageUrl')?.touched && form.get('productImageUrl')?.invalid">
+          <div *ngIf="form.get('productImageUrl')?.getError('required')">Adres URL zdjęcia jest wymagane.</div>
+          <div *ngIf="form.get('productImageUrl')?.getError('url')">Proszę, wpisz prawidłowy adres url</div>
+        </div>
+      </div>
+      <div>
+        <label class="form-label" for="category">Wybierz kategorie:</label>
+        <select class="form-select" formControlName="category" id="category" name="category">
+          <option></option>
+          <option *ngFor="let category of categories" [ngValue]="category">{{category.categoryName}}</option>
+        </select>
+        <div class="alert alert-danger" *ngIf="form.get('category')?.touched && form.get('category')?.invalid">
+          Kategoria produktu jest wymagana.
+        </div>
+      </div>
+      <div>
+        <label class="form-label" for="productDescription">Opis produktu:</label>
+        <textarea class="form-control" formControlName="productDescription" id="productDescription" name="productDescription" rows="3"></textarea>
+        <div class="alert alert-danger" *ngIf="form.get('productDescription')?.touched && form.get('productDescription')?.invalid">
+          Opisz produkt.
+        </div>
+      </div>
 
-  <button class="btn btn-primary" type="submit">Dodaj produkt</button>
-</form>
+      <button class="btn btn-primary" type="submit">Dodaj produkt</button>
+    </form>
+
+  </div>
+  <div class="col-md-6">
+    <div class="card" style="width: 18rem;">
+      <img [src]="form.get('productImageUrl')?.value" class="card-img-top" >
+      <div class="card-body">
+        <h5 class="card-title">{{form.get('productName')?.value}}</h5>
+        <p class="card-text">{{form.get('productPrice')?.value | currency:'PLN'}}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+

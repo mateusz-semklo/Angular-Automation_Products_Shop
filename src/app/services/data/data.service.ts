@@ -6,6 +6,7 @@ import {ForbiddenError} from "../../common/errors/ForbiddenError";
 import {NotFoundError} from "../../common/errors/NotFoundError";
 import {AppError} from "../../common/errors/AppError";
 import {catchError, map} from "rxjs";
+import {Category} from "../../models/GET/Category";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class DataService {
                     return response.body;
                 }),
                 catchError((error:HttpResponse<any>)=>{throw this.handleError(error);})
-            ).subscribe()
+            )
     }
   create(resource:any){
       return this.httpClient.post(this.url,resource,{observe:"response",responseType:"json",headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
@@ -62,9 +63,7 @@ export class DataService {
 
   }
 
-
   handleError(error:HttpResponse<any>) {
-
       if (error.status === 400)
           return new BadRequestError(error);
       if (error.status === 401)
