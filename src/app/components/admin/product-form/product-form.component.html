@@ -27,11 +27,11 @@
           <div *ngIf="form.get('productImageUrl')?.getError('url')">Proszę, wpisz prawidłowy adres url</div>
         </div>
       </div>
-      <div>
+      <div formGroupName="category">
         <label class="form-label" for="category">Wybierz kategorie:</label>
-        <select class="form-select" formControlName="category" id="category" name="category">
+        <select class="form-select" formControlName="categoryName" id="category" name="category">
           <option></option>
-          <option *ngFor="let category of categories"  [ngValue]="category">{{category.categoryName}}</option>
+          <option *ngFor="let category of categories"  [value]="category.categoryName">{{category.categoryName}}</option>
         </select>
         <div class="alert alert-danger" *ngIf="form.get('category')?.touched && form.get('category')?.invalid">
           Kategoria produktu jest wymagana.
@@ -45,13 +45,13 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit">Dodaj produkt</button>
+      <button class="btn btn-primary" type="submit">Zapisz produkt</button>
     </form>
 
   </div>
   <div class="col-md-6">
     <div class="card" style="width: 18rem;">
-      <img [src]="form.get('productImageUrl')?.value" class="card-img-top" >
+      <img class="card-img-top"  >
       <div class="card-body">
         <h5 class="card-title">{{form.get('productName')?.value}}</h5>
         <p class="card-text">{{form.get('productPrice')?.value | currency:'PLN'}}</p>
@@ -60,4 +60,5 @@
 
   </div>
 </div>
+
 

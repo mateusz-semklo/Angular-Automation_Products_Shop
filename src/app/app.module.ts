@@ -55,12 +55,12 @@ import {NgOptimizedImage} from "@angular/common";
       {path: 'user/order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
       {path: 'user/orders', component: UserOrdersComponent, canActivate: [AuthGuardService]},
       {
-        path: 'admin/products/:id',
+        path: 'admin/products/product-form',
         component: ProductFormComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       {
-        path: 'admin/products/product-form',
+        path: 'admin/products/:id',
         component: ProductFormComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
