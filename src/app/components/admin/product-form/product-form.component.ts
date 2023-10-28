@@ -5,7 +5,8 @@ import {Product} from "../../../models/GET/Product";
 import {FormControl, FormGroup, RequiredValidator, Validators} from "@angular/forms";
 import {ProductService} from "../../../services/data/products/product.service";
 import {CustomFormsModule, CustomValidators} from 'ng2-validation'
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-product-form',
@@ -13,11 +14,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./product-form.component.css']
 })
 export class ProductFormComponent implements OnInit{
+  categories:Array<Category>=[];
+  product:Product=new Product();
   constructor(private categoryService:CategoryService,
               private router:Router,
-              private productService:ProductService) {
-
-  }
+              private productService:ProductService,
+              private route:ActivatedRoute) {}
 
   form:FormGroup=new FormGroup({
       productName: new FormControl('',Validators.required),
@@ -27,8 +29,6 @@ export class ProductFormComponent implements OnInit{
       productDescription: new FormControl('',Validators.required),
     }
   )
-
-  categories:Array<Category>=[];
   ngOnInit(): void {
     this.categoryService.getAll()
       .subscribe(
@@ -36,10 +36,22 @@ export class ProductFormComponent implements OnInit{
             this.categories = <Array<Category>>body;
           },
           error:(error)=>{
+          }})
 
-          }
-        }
-      )
+    let id=this.route.snapshot.paramMap.get("id");
+    if(id){
+      this.productService.getById(id)
+        .subscribe({next:(body)=>{
+            this.product=<Product>body;
+            this.form.get("productName")?.setValue(this.product.productName);
+            this.form.get("productPrice")?.setValue(this.product.productPrice);
+            this.form.get("productDescription")?.setValue(this.product.productDescription);
+            this.form.get("productImageUrl")?.setValue(this.product.productImageUrl);
+            this.form.get("productCategory")?.setValue(this.product.category);
+          },
+          error:(error)=>{
+          }})
+    }
   }
 
   create(){
@@ -53,9 +65,7 @@ export class ProductFormComponent implements OnInit{
             this.router.navigate(['/admin/products']);
           },
           error:(result)=>{
-          }
-        }
-      )
+          }})
   }
 
 }

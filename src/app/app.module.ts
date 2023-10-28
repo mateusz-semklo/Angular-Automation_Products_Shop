@@ -5,9 +5,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
-import { CheckOutComponent } from './components/check-out/check-out.component';
-import { OrderSuccessComponent } from './components/order-success/order-success.component';
-import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { CheckOutComponent } from './components/user/check-out/check-out.component';
+import { OrderSuccessComponent } from './components/user/order-success/order-success.component';
+import { UserOrdersComponent } from './components/user/user-orders/user-orders.component';
 import { AdminProductsComponent } from './components/admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orders.component';
 import {RouterModule} from "@angular/router";
@@ -24,7 +24,6 @@ import {UserService} from "./services/data/users/user.service";
 import {CategoryService} from "./services/data/categories/category.service";
 import {ProductService} from "./services/data/products/product.service";
 import {OrderService} from "./services/data/orders/order.service";
-import { CustomFormsModule } from 'ng2-validation'
 import {NgOptimizedImage} from "@angular/common";
 
 
@@ -37,7 +36,7 @@ import {NgOptimizedImage} from "@angular/common";
     ShoppingCartComponent,
     CheckOutComponent,
     OrderSuccessComponent,
-    MyOrdersComponent,
+    UserOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
@@ -52,18 +51,22 @@ import {NgOptimizedImage} from "@angular/common";
       {path: 'shopping-cart', component: ShoppingCartComponent},
       {path: 'login', component: LoginComponent},
 
-      {path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
-      {path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
-      {path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService]},
-
+      {path: 'user/check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
+      {path: 'user/order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
+      {path: 'user/orders', component: UserOrdersComponent, canActivate: [AuthGuardService]},
       {
-        path: 'admin/products',
-        component: AdminProductsComponent,
+        path: 'admin/products/:id',
+        component: ProductFormComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       {
         path: 'admin/products/product-form',
         component: ProductFormComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      {
+        path: 'admin/products',
+        component: AdminProductsComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       {path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuardService, AdminAuthGuardService]}

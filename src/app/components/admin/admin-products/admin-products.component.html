@@ -1,1 +1,22 @@
-<a routerLink='/admin/products/product-form' class="btn btn-primary">Dodaj produkt</a>
+<p>
+  <a routerLink='/admin/products/product-form' class="btn btn-primary">Dodaj produkt</a>
+</p>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Nazwa produktu</th>
+    <th>Cena</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products">
+    <td>{{product.productName}}</td>
+    <td>{{product.productPrice}}</td>
+    <td>
+      <a [routerLink]="['/admin/products/',product.productId]">Edytuj</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

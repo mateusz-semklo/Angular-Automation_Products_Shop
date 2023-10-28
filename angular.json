@@ -13,6 +13,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "ng2-validation",
+              "babel-runtime/helpers/slicedToArray",
+              "babel-runtime/helpers/classCallCheck",
+              "babel-runtime/helpers/createClass",
+              "babel-runtime/core-js/get-iterator",
+              "babel-runtime/helpers/extends"
+            ],
             "outputPath": "dist/automation-shop",
             "index": "src/index.html",
             "main": "src/main.ts",
