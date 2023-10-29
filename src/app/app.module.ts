@@ -25,6 +25,13 @@ import {CategoryService} from "./services/data/categories/category.service";
 import {ProductService} from "./services/data/products/product.service";
 import {OrderService} from "./services/data/orders/order.service";
 import {NgOptimizedImage} from "@angular/common";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+
 
 
 @NgModule({
@@ -75,6 +82,12 @@ import {NgOptimizedImage} from "@angular/common";
     NgbModule,
     ReactiveFormsModule,
     NgOptimizedImage,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
     AuthService,
