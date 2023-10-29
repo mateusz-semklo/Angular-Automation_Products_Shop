@@ -1,16 +1,20 @@
 <p>
   <a routerLink='/admin/products/product-form' class="btn btn-primary">Dodaj produkt</a>
 </p>
+<div>
+<mat-form-field>
+  <mat-label>Szukaj</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="..." #input>
+</mat-form-field>
 
-<table mat-table [dataSource]="products" class="mat-elevation-z8" >
-
+<table mat-table [dataSource]="dataSource" class="table table-hover mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
   <ng-container matColumnDef="productName" >
-    <th mat-header-cell *matHeaderCellDef>Nazwa produktu</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Nazwa produktu</th>
     <td mat-cell *matCellDef="let product"> {{product.productName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="productPrice">
-    <th mat-header-cell *matHeaderCellDef>Cena</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">Cena</th>
     <td mat-cell *matCellDef="let product">
       {{product.productPrice}}
     </td>
@@ -27,5 +31,10 @@
   <tr mat-row *matRowDef="let product; columns: displayedColumns;"></tr>
 </table>
 
+<mat-paginator [pageSizeOptions]="[10, 20, 40]"
+               showFirstLastButtons
+               aria-label="Select page of periodic elements">
+</mat-paginator>
+</div>
 
 

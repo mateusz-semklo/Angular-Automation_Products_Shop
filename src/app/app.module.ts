@@ -31,7 +31,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-
+import {PaginatorIntlService} from "./services/paginator-intl.service";
 
 
 @NgModule({
@@ -97,7 +97,8 @@ import {MatButtonModule} from "@angular/material/button";
     UserService,
     CategoryService,
     ProductService,
-    OrderService
+    OrderService,
+    PaginatorIntlService
   ],
   bootstrap: [AppComponent]
 })
