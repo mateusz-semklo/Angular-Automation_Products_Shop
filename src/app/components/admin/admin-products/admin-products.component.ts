@@ -11,6 +11,7 @@ import {Product} from "../../../models/GET/Product";
 })
 export class AdminProductsComponent implements OnInit{
   products:Array<Product>=[];
+  filterProducts:Array<Product>=[];
   constructor(private router:ActivatedRoute,private productsService:ProductService) {
   }
 
@@ -18,7 +19,9 @@ export class AdminProductsComponent implements OnInit{
     this.productsService.getAll()
       .subscribe(
         {next:(body)=>{
+            console.log("subscribe");
             this.products = <Array<Product>>body;
+            this.filterProducts=this.products;
           },
           error:(error)=>{
 
@@ -27,4 +30,10 @@ export class AdminProductsComponent implements OnInit{
       )
   }
 
+  filter(query:string){
+    this.filterProducts=this.products;
+    this.filterProducts=this.filterProducts.filter((product)=>{
+      return product.productName.toLowerCase().includes(query.toLowerCase());
+    })
+  }
 }
