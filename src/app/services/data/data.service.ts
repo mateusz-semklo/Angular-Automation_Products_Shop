@@ -6,7 +6,7 @@ import {ForbiddenError} from "../../common/errors/ForbiddenError";
 import {NotFoundError} from "../../common/errors/NotFoundError";
 import {AppError} from "../../common/errors/AppError";
 import {catchError, map} from "rxjs";
-import {Category} from "../../models/GET/Category";
+import {Category} from "../../models/Category";
 
 @Injectable({
   providedIn: 'root'

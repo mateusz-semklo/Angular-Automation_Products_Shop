@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {catchError, elementAt, map, Observable} from "rxjs";
-import {AppError} from "../common/errors/AppError";
-import {UnauthorizedError} from "../common/errors/UnauthorizedError";
-import {ForbiddenError} from "../common/errors/ForbiddenError";
-import {BadRequestError} from "../common/errors/BadRequestError";
-import {NotFoundError} from "../common/errors/NotFoundError";
+import {AppError} from "../../common/errors/AppError";
+import {UnauthorizedError} from "../../common/errors/UnauthorizedError";
+import {ForbiddenError} from "../../common/errors/ForbiddenError";
+import {BadRequestError} from "../../common/errors/BadRequestError";
+import {NotFoundError} from "../../common/errors/NotFoundError";
 import * as jose from 'jose';
 import {Router} from "@angular/router";
+import {UrlsService} from "../url/urls.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  url:string="http://localhost:8080/authenticate";
-
-
-  constructor(private httpClient:HttpClient,private router:Router) { }
+  url:string=<string>this.urlService.urls.get("authenticate");
+  constructor(private httpClient:HttpClient,private router:Router,private urlService:UrlsService) { }
 
   login(credentials:{username:string,password:string}){
     return this.httpClient.post(this.url,credentials,{responseType:"text",observe:"response" })

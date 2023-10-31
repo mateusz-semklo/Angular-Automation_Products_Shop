@@ -13,11 +13,11 @@ import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orde
 import {RouterModule} from "@angular/router";
 import { LoginComponent } from './components/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {AuthService} from "./services/auth.service";
+import {AuthService} from "./services/auth/auth.service";
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {AuthGuardService} from "./services/auth-guard.service";
-import {AdminAuthGuardService} from "./services/admin-auth-guard.service";
+import {AuthGuardService} from "./services/quards/auth-guard.service";
+import {AdminAuthGuardService} from "./services/quards/admin-auth-guard.service";
 import {ProductFormComponent} from "./components/admin/product-form/product-form.component";
 import {DataService} from "./services/data/data.service";
 import {UserService} from "./services/data/users/user.service";
@@ -31,7 +31,10 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {PaginatorIntlService} from "./services/paginator-intl.service";
+import {PaginatorIntlService} from "./services/paginator/paginator-intl.service";
+import {UrlsService} from "./services/url/urls.service";
+import { ProductFilterComponent } from './components/products/product-filter/product-filter.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 
 @NgModule({
@@ -47,16 +50,17 @@ import {PaginatorIntlService} from "./services/paginator-intl.service";
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ProductFilterComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent},
-      {path: 'products', component: ProductsComponent},
       {path: 'shopping-cart', component: ShoppingCartComponent},
       {path: 'login', component: LoginComponent},
+      {path: '', component: ProductsComponent},
 
       {path: 'user/check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
       {path: 'user/order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
@@ -98,7 +102,8 @@ import {PaginatorIntlService} from "./services/paginator-intl.service";
     CategoryService,
     ProductService,
     OrderService,
-    PaginatorIntlService
+    PaginatorIntlService,
+    UrlsService
   ],
   bootstrap: [AppComponent]
 })

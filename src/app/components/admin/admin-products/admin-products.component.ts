@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../../services/data/products/product.service";
-import {Category} from "../../../models/GET/Category";
-import {Product} from "../../../models/GET/Product";
+import {Category} from "../../../models/Category";
+import {Product} from "../../../models/Product";
 import {query} from "@angular/animations";
 import {MatTableDataSource, MatTableDataSourcePaginator} from "@angular/material/table";
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
-import {PaginatorIntlService} from "../../../services/paginator-intl.service";
+import {PaginatorIntlService} from "../../../services/paginator/paginator-intl.service";
 
 @Component({
   selector: 'app-admin-products',
@@ -26,13 +26,6 @@ export class AdminProductsComponent implements OnInit, AfterViewInit{
   constructor(private router:ActivatedRoute,
               private productsService:ProductService,
               private _liveAnnouncer: LiveAnnouncer) {}
-
-  filter(query:string){
-    this.filterProducts=this.products;
-    this.filterProducts=this.filterProducts.filter((product)=>{
-      return product.productName.toLowerCase().includes(query.toLowerCase());
-    })
-  }
 
   ngOnInit(): void {
     this.productsService.getAll()

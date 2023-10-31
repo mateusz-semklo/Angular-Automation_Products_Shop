@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../../services/data/categories/category.service";
-import {Category} from "../../../models/GET/Category";
-import {Product} from "../../../models/GET/Product";
+import {Category} from "../../../models/Category";
+import {Product} from "../../../models/Product";
 import {FormControl, FormGroup, RequiredValidator, Validators} from "@angular/forms";
 import {ProductService} from "../../../services/data/products/product.service";
 import {CustomFormsModule, CustomValidators} from 'ng2-validation'
 import {ActivatedRoute, Router} from "@angular/router";
+import {UrlsService} from "../../../services/url/urls.service";
 
 
 @Component({
@@ -18,10 +19,12 @@ export class ProductFormComponent implements OnInit{
   product:Product=new Product();
   id:string|null=null;
 
+
   constructor(private categoryService:CategoryService,
               private router:Router,
               private productService:ProductService,
-              private route:ActivatedRoute) {}
+              private route:ActivatedRoute,
+              urlService:UrlsService) {}
 
   form:FormGroup=new FormGroup({
       productName: new FormControl('',Validators.required),
@@ -45,7 +48,6 @@ export class ProductFormComponent implements OnInit{
           }})
 
     this.id=this.route.snapshot.paramMap.get("id");
-    console.log("paramMap.id: "+this.id);
 
     if(this.id) {
       this.productService.getById(this.id)
@@ -56,7 +58,7 @@ export class ProductFormComponent implements OnInit{
             this.form.get("productPrice")?.setValue(this.product.productPrice);
             this.form.get("productDescription")?.setValue(this.product.productDescription);
             this.form.get("productImageUrl")?.setValue(this.product.productImageUrl);
-            this.form.get("category.categoryName")?.setValue(this.product.category.categoryName);
+            this.form.get("category.categoryName")?.setValue((this.product.category) ? this.product.category.categoryName :null);
           },
           error: (error) => {
           }})
@@ -70,7 +72,6 @@ export class ProductFormComponent implements OnInit{
         .subscribe(
           {
             next: (result) => {
-              console.log(result);
               this.router.navigate(['/admin/products']);
             },
             error: (result) => {
@@ -83,12 +84,26 @@ export class ProductFormComponent implements OnInit{
         .subscribe(
           {
             next: (result) => {
-              console.log(result);
               this.router.navigate(['/admin/products']);
             },
-            error: (result) => {
-            }
+            error: (result) => {}
           })
     }
+  }
+
+  delete(){
+    if(!confirm("Czy chcesz usunąć produkt"))
+      return;
+
+    if(this.id)
+      this.productService.delete(this.id)
+        .subscribe(
+          {
+            next: (result) => {
+              this.router.navigate(['/admin/products']);
+            },
+            error: (result) => {}
+          })
+
   }
 }
