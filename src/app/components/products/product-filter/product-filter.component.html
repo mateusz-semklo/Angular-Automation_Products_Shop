@@ -1,0 +1,17 @@
+<div class="list-group">
+  <a class="list-group-item list-group-item-action" href="#"
+     [class.active]="!categoryName"
+     routerLink="/"
+  >
+    Wszystkie produkty
+  </a>
+  <a class="list-group-item list-group-item-action" href="#"
+     [class.active]="category.categoryName===categoryName"
+     *ngFor="let category of categories"
+     routerLink="/"
+     [queryParams]="{category:category.categoryName}"
+  >
+    {{category.categoryName}}
+  </a>
+</div>
+
