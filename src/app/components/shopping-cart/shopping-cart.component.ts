@@ -5,7 +5,7 @@ import {Product} from "../../models/Product";
 import {UrlsService} from "../../services/url/urls.service";
 
 @Component({
-  selector: 'app-shopping-cart',
+  selector: 'app-shopping-shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css']
 })

@@ -35,6 +35,8 @@ import {PaginatorIntlService} from "./services/paginator/paginator-intl.service"
 import {UrlsService} from "./services/url/urls.service";
 import { ProductFilterComponent } from './components/products/product-filter/product-filter.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import {ShoppingCartService} from "./services/shopping-cart/shopping-cart.service";
+import {CartsService} from "./services/data/carts/carts.service";
 
 
 @NgModule({
@@ -58,7 +60,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: 'shopping-cart', component: ShoppingCartComponent},
+      {path: 'shopping-shopping-cart', component: ShoppingCartComponent},
       {path: 'login', component: LoginComponent},
       {path: '', component: ProductsComponent},
 
@@ -103,7 +105,9 @@ import { ProductCardComponent } from './components/product-card/product-card.com
     ProductService,
     OrderService,
     PaginatorIntlService,
-    UrlsService
+    UrlsService,
+    ShoppingCartService,
+    CartsService
   ],
   bootstrap: [AppComponent]
 })

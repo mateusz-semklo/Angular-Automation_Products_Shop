@@ -23,7 +23,7 @@ export class DataService {
             catchError((error:HttpResponse<any>)=>{throw this.handleError(error);})
         )
   }
-    getById(id:string){
+    getById(id:number){
         return this.httpClient.get(this.url+'/'+id,{observe:"response",responseType:"json",headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
             .pipe(
                 map((response)=>{
@@ -42,7 +42,8 @@ export class DataService {
           )
 
   }
-  update(resources:any,id:string){
+
+    update(resources: any, id: number){
       return this.httpClient.put(this.url+'/'+id,resources,{observe:"response",responseType:"json",headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
           .pipe(
               map((response)=>{
@@ -52,7 +53,7 @@ export class DataService {
           )
 
   }
-  delete(id:string){
+  delete(id:number){
       return this.httpClient.delete(this.url+'/'+id,{observe:"response",responseType:"json",headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
           .pipe(
               map((response)=>{

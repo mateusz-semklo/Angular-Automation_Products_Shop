@@ -11,6 +11,7 @@ export class UrlsService {
     this.urls = new Map();
     this.urls.set("images",this.serverUrl);
     this.urls.set("products",this.serverUrl+"/products");
+    this.urls.set("carts",this.serverUrl+"/carts");
     this.urls.set("users",this.serverUrl+"/users");
     this.urls.set("orders",this.serverUrl+"/orders");
     this.urls.set("categories",this.serverUrl+"/categories");

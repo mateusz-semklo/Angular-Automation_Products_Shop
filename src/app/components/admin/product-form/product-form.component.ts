@@ -50,7 +50,7 @@ export class ProductFormComponent implements OnInit{
     this.id=this.route.snapshot.paramMap.get("id");
 
     if(this.id) {
-      this.productService.getById(this.id)
+      this.productService.getById(parseInt(this.id))
         .subscribe({
           next: (body) => {
             this.product = <Product>body;
@@ -67,7 +67,6 @@ export class ProductFormComponent implements OnInit{
 
   create() {
     if(this.id==null) {
-      console.log("create: "+this.id);
       this.productService.create(this.form.value as Product)
         .subscribe(
           {
@@ -79,9 +78,8 @@ export class ProductFormComponent implements OnInit{
           })
     }
     else {
-      console.log("update: "+this.id);
-      this.productService.update(this.form.value as Product, this.id as string)
-        .subscribe(
+      this.productService.update(this.form.value as Product, parseInt(this.id))
+          .subscribe(
           {
             next: (result) => {
               this.router.navigate(['/admin/products']);
@@ -96,7 +94,7 @@ export class ProductFormComponent implements OnInit{
       return;
 
     if(this.id)
-      this.productService.delete(this.id)
+      this.productService.delete(parseInt(this.id))
         .subscribe(
           {
             next: (result) => {
