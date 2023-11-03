@@ -5,6 +5,9 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import {CategoryService} from "../../services/data/categories/category.service";
 import {Category} from "../../models/Category";
 import {ActivatedRoute} from "@angular/router";
+import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
+import {Order} from "../../models/Order";
+import {Cart} from "../../models/Cart";
 
 @Component({
   selector: 'app-products',
@@ -16,11 +19,16 @@ export class ProductsComponent implements OnInit {
   filteredProducts: Array<Product> = [];
   categories: Array<Category> = [];
   categoryName: string | null = null;
+  order:Order|null=null;
 
-  constructor(private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute,
+  private shoppingService:ShoppingCartService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    this.order=await this.shoppingService.getOrder();
+
     this.productService.getAll()
       .subscribe({
         next: (body) => {
@@ -38,5 +46,7 @@ export class ProductsComponent implements OnInit {
               this.filteredProducts=this.products;
           })}})
   }
+
+
 
 }

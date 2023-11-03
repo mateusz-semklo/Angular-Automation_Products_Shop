@@ -15,8 +15,7 @@ export class ShoppingCartService {
   }
 
   public async addToCard(product: Product) {
-    let orderId = await this.getOrCreateOrder();
-    let order: Order = <Order>await this.getOrder(parseInt(orderId));
+    let order: Order = <Order>await this.getOrder();
     console.log("order before")
     console.log(order);
 
@@ -40,7 +39,7 @@ export class ShoppingCartService {
       console.log(cart);
 
       order.carts.push(cart);
-      order = <Order>await firstValueFrom(this.ordersService.update(order, Number.parseInt(orderId)));
+      order = <Order>await firstValueFrom(this.ordersService.update(order, order.orderId));
       console.log("order after")
       console.log(order);
 
@@ -52,9 +51,10 @@ export class ShoppingCartService {
     return await firstValueFrom(this.ordersService.create(order));
   }
 
-  async getOrder(orderId: number): Promise<Order | null> {
+  async getOrder(): Promise<Order | null> {await this.getOrCreateOrder()
     let order: Order;
-    return <Order>await firstValueFrom(this.ordersService.getById(orderId));
+    let orderId:string=await this.getOrCreateOrder()
+    return <Order>await firstValueFrom(this.ordersService.getById(Number.parseInt(orderId)));
   }
 
   async getOrCreateOrder() {
