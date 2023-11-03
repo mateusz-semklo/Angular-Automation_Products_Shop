@@ -1,10 +1,12 @@
 import {Category} from "./Category";
+import {Cart} from "./Cart";
 
 export class Product {
-  productId: number|null = null;
-  productName: string|null = null;
-  productDescription: string|null=null;
-  productImageUrl: string|null=null;
-  productPrice: number|null=null;
-  category: Category|null=null;
+  productId: number=0;
+  productName: string="";
+  productDescription: string="";
+  productImageUrl: string="";
+  productPrice: number=0;
+  category: Category=new Category();
+
 }

@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Product} from "../../models/Product";
 import {ProductService} from "../../services/data/products/product.service";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
+import {json} from "ng2-validation/dist/json";
 
 @Component({
   selector: 'product-card',
@@ -9,14 +10,12 @@ import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.se
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent {
-  @Input("product") product: Product =new Product();
-  @Input("show-action") showAction=true;
+  @Input("product") product: Product = new Product();
+  @Input("show-action") showAction = true;
 
-  constructor(private productService:ProductService,private cartService:ShoppingCartService) {
+  constructor(private productService: ProductService, private cartService: ShoppingCartService) {
   }
-  addToCart(product:Product){
-    this.cartService.addToCard(this.product);
+  addToCart(product: Product) {
+    this.cartService.addToCard(this.product as Product);
   }
-
-
 }

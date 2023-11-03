@@ -22,7 +22,7 @@
 
   <ng-container matColumnDef="edytuj">
     <th mat-header-cell *matHeaderCellDef>Edytuj</th>
-    <td mat-cell *matCellDef="let product">
+    <td mat-cell *matCellDef="let product" routerLink="">
       <button class="btn btn-secondary" [routerLink]="['/admin/products/',product.productId]">Edytuj</button>
     </td>
   </ng-container>

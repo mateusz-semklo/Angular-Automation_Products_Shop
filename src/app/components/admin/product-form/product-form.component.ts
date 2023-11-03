@@ -19,7 +19,6 @@ export class ProductFormComponent implements OnInit{
   product:Product=new Product();
   id:string|null=null;
 
-
   constructor(private categoryService:CategoryService,
               private router:Router,
               private productService:ProductService,
@@ -48,6 +47,7 @@ export class ProductFormComponent implements OnInit{
           }})
 
     this.id=this.route.snapshot.paramMap.get("id");
+
 
     if(this.id) {
       this.productService.getById(parseInt(this.id))

@@ -11,4 +11,7 @@ import {UrlsService} from "../../services/url/urls.service";
 })
 export class ShoppingCartComponent {
 
+  constructor() {
+  }
+
 }

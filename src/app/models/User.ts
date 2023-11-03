@@ -11,5 +11,5 @@ export class User {
   userCountry: string |null = null;
   userPostCode: string |null = null;
   authorities: Array<String>|null = [];
-  orders: Array<Order>|null = [];
+  orders: Array<Order> = [];
 }

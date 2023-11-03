@@ -60,9 +60,9 @@ import {CartsService} from "./services/data/carts/carts.service";
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: 'shopping-shopping-cart', component: ShoppingCartComponent},
-      {path: 'login', component: LoginComponent},
       {path: '', component: ProductsComponent},
+      {path: 'shopping-cart', component: ShoppingCartComponent},
+      {path: 'login', component: LoginComponent},
 
       {path: 'user/check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
       {path: 'user/order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
