@@ -3,7 +3,7 @@ import {Product} from "../../models/Product";
 import {CartsService} from "../data/carts/carts.service";
 import {OrderService} from "../data/orders/order.service";
 import {Order} from "../../models/Order";
-import {firstValueFrom} from "rxjs";
+import {firstValueFrom, lastValueFrom} from "rxjs";
 import {ProductService} from "../data/products/product.service";
 import {Cart} from "../../models/Cart";
 
@@ -14,37 +14,22 @@ export class ShoppingCartService {
   constructor(private cartsService: CartsService, private ordersService: OrderService, private productService: ProductService) {
   }
 
-  public async addToCard(product: Product) {
-    await this.updateOrCreateCart(product,true);
 
-  }
-  public async removeFromCard(product: Product) {
-    await this.updateOrCreateCart(product,false);
-  }
 
-  async updateOrCreateCart(product: Product, direct: boolean) {
+  async updateOrCreateCart(cart: Cart) {
     let order: Order = <Order>await this.getOrCreateOrder();
-    let carts: Cart[] = order.carts.filter((cart) => {
-      if (cart.product?.productId == product.productId) {
-        if (direct) cart.count = cart.count as number + 1;
-        else {
-          if (cart.count > 0)
-            cart.count = cart.count as number - 1;
-        }
-        this.cartsService.update(cart, <number>cart.cartProductId).subscribe();
-      }
-    })
-
-    if (carts == null || carts.length == 0) {
-      let cart: Cart = new Cart();
-      cart.product = product;
-      cart.count = 1;
-      cart = <Cart>await firstValueFrom(this.cartsService.create(cart))
+    console.log(cart);
+    if (cart.cartProductId == 0) {
+      let result_cart= <Cart>await firstValueFrom(this.cartsService.create(cart));
+      cart.cartProductId=result_cart.cartProductId;
       order.carts.push(cart);
-      order = <Order>await firstValueFrom(this.ordersService.update(order, order.orderId));
-      console.log("order:")
-      console.log(order);
+    } else {
+      cart = <Cart>await firstValueFrom(this.cartsService.update(cart, cart.cartProductId));
     }
+    this.ordersService.update(order, order.orderId)
+      .subscribe((body)=>{
+        console.log(<Order> body);
+      })
 
   }
 

@@ -19,15 +19,16 @@ export class ProductsComponent implements OnInit {
   filteredProducts: Array<Product> = [];
   categories: Array<Category> = [];
   categoryName: string | null = null;
-  order:Order|null=null;
+  order: Order | null = null;
 
   constructor(private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute,
-  private shoppingService:ShoppingCartService) {
+              private shoppingService: ShoppingCartService) {
   }
 
   async ngOnInit(): Promise<void> {
 
     this.order=await this.shoppingService.getOrCreateOrder();
+
 
     this.productService.getAll()
       .subscribe({
@@ -37,15 +38,15 @@ export class ProductsComponent implements OnInit {
 
           this.route.queryParamMap.subscribe((query) => {
             this.categoryName = query.get("category");
-            if(this.categoryName!=null) {
+            if (this.categoryName != null) {
               this.filteredProducts = this.products.filter((product) => {
-                return ( ((product.category) ? product.category.categoryName : null) === this.categoryName);
+                return (((product.category) ? product.category.categoryName : null) === this.categoryName);
               })
-            }else
-              this.filteredProducts=this.products;
-          })}})
+            } else
+              this.filteredProducts = this.products;
+          })
+        }
+      })
   }
-
-
 
 }

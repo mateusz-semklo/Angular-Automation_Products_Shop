@@ -17,32 +17,38 @@ import {query} from "@angular/animations";
 export class ProductCardComponent implements OnInit {
   @Input("product") product: Product = new Product();
   @Input("show-action") showAction = true;
-  @Input("shopping-cart") order: Order | null = null;
+  @Input("shopping-cart") order:Order|null=null;
 
   cart:Cart=new Cart();
-  constructor(private productService: ProductService, private cartService: ShoppingCartService, private router: Router, private orderService: OrderService,private route:ActivatedRoute) {
+
+  constructor(private productService: ProductService, private shoppingCartService: ShoppingCartService, private router: Router, private orderService: OrderService, private route: ActivatedRoute) {
   }
 
-  addToCart() {
-    this.updateCount();
-    this.cartService.addToCard(this.product as Product);
+  async addToCart() {
+    this.cart.count++;
+    this.cart.product = this.product;
+    await this.shoppingCartService.updateOrCreateCart(this.cart);
+  }
+
+  async removeFromCart() {
+    //  this.updateCount();
+    await this.shoppingCartService.updateOrCreateCart(this.cart);
   }
 
   ngOnInit(): void {
     this.updateCount();
-
-    this.route.queryParamMap.subscribe((query)=>{
-      console.log("sdjfhskjdfh");
-    })
   }
 
   updateCount() {
+
     let carts: Cart[] = <Cart[]>this.order?.carts.filter((cart) => {
       return (this.product.productId == (<Product>cart.product).productId)
     })
     if (carts.length > 0) {
       this.cart = <Cart>carts.at(0);
     }
+    console.log(this.cart);
+
   }
 
 
