@@ -3,6 +3,7 @@ import {ProductService} from "../../services/data/products/product.service";
 import {HttpClient} from "@angular/common/http";
 import {Product} from "../../models/Product";
 import {UrlsService} from "../../services/url/urls.service";
+import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
 
 @Component({
   selector: 'app-shopping-shopping-cart',
@@ -11,7 +12,8 @@ import {UrlsService} from "../../services/url/urls.service";
 })
 export class ShoppingCartComponent {
 
-  constructor() {
+  constructor(private shoppingCartService:ShoppingCartService) {
   }
+
 
 }

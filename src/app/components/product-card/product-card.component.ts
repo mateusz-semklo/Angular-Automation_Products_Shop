@@ -21,7 +21,7 @@ export class ProductCardComponent implements OnInit {
 
   cart: Cart = new Cart();
 
-  constructor(private productService: ProductService, private shoppingCartService: ShoppingCartService, private router: Router, private orderService: OrderService, private route: ActivatedRoute) {
+  constructor( private shoppingCartService: ShoppingCartService) {
   }
 
   async addToCart() {
@@ -31,9 +31,9 @@ export class ProductCardComponent implements OnInit {
   }
 
   async removeFromCart() {
-    if(this.cart.count>0)
+    if (this.cart.count > 0)
       this.cart.count--;
-    else this.cart.count=0;
+    else this.cart.count = 0;
 
     this.cart.product = this.product;
     await this.shoppingCartService.updateOrCreateCart(this.cart);
@@ -44,7 +44,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   updateCount() {
-
     let carts: Cart[] = <Cart[]>this.order?.carts.filter((cart) => {
       return (this.product.productId == (<Product>cart.product).productId)
     })
@@ -52,8 +51,6 @@ export class ProductCardComponent implements OnInit {
       this.cart = <Cart>carts.at(0);
     }
     console.log(this.cart);
-
   }
-
 
 }
