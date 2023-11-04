@@ -15,24 +15,26 @@ export class ShoppingCartService {
   }
 
 
-
   async updateOrCreateCart(cart: Cart) {
     let order: Order = <Order>await this.getOrCreateOrder();
     console.log(cart);
     if (cart.cartProductId == 0) {
-      let result_cart= <Cart>await firstValueFrom(this.cartsService.create(cart));
-      cart.cartProductId=result_cart.cartProductId;
+      let result_cart = <Cart>await firstValueFrom(this.cartsService.create(cart));
+      cart.cartProductId = result_cart.cartProductId;
       order.carts.push(cart);
-    } else {
+    } else if (cart.count == 0) {
+        order.carts.splice(order.carts.indexOf(cart),1);
+        await firstValueFrom(this.cartsService.delete(cart.cartProductId));
+    }else{
       cart = <Cart>await firstValueFrom(this.cartsService.update(cart, cart.cartProductId));
     }
+
     this.ordersService.update(order, order.orderId)
-      .subscribe((body)=>{
-        console.log(<Order> body);
+      .subscribe((body) => {
+        console.log(<Order>body);
       })
 
   }
-
 
   async getOrCreateOrder() {
     let orderId: string | null = localStorage.getItem("orderId");

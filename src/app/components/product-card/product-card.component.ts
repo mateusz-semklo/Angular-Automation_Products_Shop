@@ -17,9 +17,9 @@ import {query} from "@angular/animations";
 export class ProductCardComponent implements OnInit {
   @Input("product") product: Product = new Product();
   @Input("show-action") showAction = true;
-  @Input("shopping-cart") order:Order|null=null;
+  @Input("shopping-cart") order: Order | null = null;
 
-  cart:Cart=new Cart();
+  cart: Cart = new Cart();
 
   constructor(private productService: ProductService, private shoppingCartService: ShoppingCartService, private router: Router, private orderService: OrderService, private route: ActivatedRoute) {
   }
@@ -31,7 +31,11 @@ export class ProductCardComponent implements OnInit {
   }
 
   async removeFromCart() {
-    //  this.updateCount();
+    if(this.cart.count>0)
+      this.cart.count--;
+    else this.cart.count=0;
+
+    this.cart.product = this.product;
     await this.shoppingCartService.updateOrCreateCart(this.cart);
   }
 
