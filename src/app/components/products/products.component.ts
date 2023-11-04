@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    this.order=await this.shoppingService.getOrder();
+    this.order=await this.shoppingService.getOrCreateOrder();
 
     this.productService.getAll()
       .subscribe({
@@ -37,7 +37,6 @@ export class ProductsComponent implements OnInit {
 
           this.route.queryParamMap.subscribe((query) => {
             this.categoryName = query.get("category");
-            console.log(this.categoryName);
             if(this.categoryName!=null) {
               this.filteredProducts = this.products.filter((product) => {
                 return ( ((product.category) ? product.category.categoryName : null) === this.categoryName);

@@ -5,8 +5,9 @@ import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.se
 import {json} from "ng2-validation/dist/json";
 import {Order} from "../../models/Order";
 import {Cart} from "../../models/Cart";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {OrderService} from "../../services/data/orders/order.service";
+import {query} from "@angular/animations";
 
 @Component({
   selector: 'product-card',
@@ -19,25 +20,28 @@ export class ProductCardComponent implements OnInit {
   @Input("shopping-cart") order: Order | null = null;
 
   cart:Cart=new Cart();
-  constructor(private productService: ProductService, private cartService: ShoppingCartService, router: Router, private orderService: OrderService) {
+  constructor(private productService: ProductService, private cartService: ShoppingCartService, private router: Router, private orderService: OrderService,private route:ActivatedRoute) {
   }
 
   addToCart() {
     this.updateCount();
     this.cartService.addToCard(this.product as Product);
-
   }
 
   ngOnInit(): void {
     this.updateCount();
+
+    this.route.queryParamMap.subscribe((query)=>{
+      console.log("sdjfhskjdfh");
+    })
   }
 
-  updateCount(){
-    let carts:Cart[]=<Cart[]>this.order?.carts.filter((cart)=>{
-      return (this.product.productId==(<Product>cart.product).productId)
+  updateCount() {
+    let carts: Cart[] = <Cart[]>this.order?.carts.filter((cart) => {
+      return (this.product.productId == (<Product>cart.product).productId)
     })
-    if(carts.length>0){
-      this.cart=<Cart>carts.at(0);
+    if (carts.length > 0) {
+      this.cart = <Cart>carts.at(0);
     }
   }
 
