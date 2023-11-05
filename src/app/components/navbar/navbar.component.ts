@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
-import {Subscription} from "rxjs";
+import {from, Observable, Subscription} from "rxjs";
+import {Order} from "../../models/Order";
 
 
 @Component({
@@ -16,12 +17,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(public authService: AuthService, private shoppingCartService: ShoppingCartService) {
   }
-  ngOnInit() {
-    this.subscriptionName = this.shoppingCartService.getUpdate().subscribe((quantity) => {
+  async ngOnInit() {
+
+    this.subscriptionName = this.shoppingCartService.getObservableQuantity().subscribe((quantity) => {
       this.quantity = quantity;
     })
   }
   ngOnDestroy(): void {
     this.subscriptionName.unsubscribe();
+  }
+  logout(){
+    this.authService.logout();
   }
 }

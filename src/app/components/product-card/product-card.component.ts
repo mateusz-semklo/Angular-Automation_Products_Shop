@@ -27,6 +27,7 @@ export class ProductCardComponent implements OnInit {
   async addToCart() {
     this.cart.count++;
     this.cart.product = this.product;
+    console.log(this.cart.count);
     await this.shoppingCartService.updateOrCreateCart(this.cart);
   }
 

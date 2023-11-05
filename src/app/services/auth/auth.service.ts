@@ -9,6 +9,8 @@ import {NotFoundError} from "../../common/errors/NotFoundError";
 import * as jose from 'jose';
 import {Router} from "@angular/router";
 import {UrlsService} from "../url/urls.service";
+import {ShoppingCartService} from "../shopping-cart/shopping-cart.service";
+import {Order} from "../../models/Order";
 
 
 @Injectable({
@@ -16,7 +18,7 @@ import {UrlsService} from "../url/urls.service";
 })
 export class AuthService {
   url:string=<string>this.urlService.urls.get("authenticate");
-  constructor(private httpClient:HttpClient,private router:Router,private urlService:UrlsService) { }
+  constructor(private httpClient:HttpClient,private router:Router,private urlService:UrlsService, private shoppingCartService:ShoppingCartService) { }
 
   login(credentials:{username:string,password:string}){
     return this.httpClient.post(this.url,credentials,{responseType:"text",observe:"response" })
@@ -33,10 +35,12 @@ export class AuthService {
         ,catchError((error:Response)=> {throw this.handleError(error);})
       )
   }
-  logout(){
+  async logout(){
     if(localStorage.getItem("token")) {
       localStorage.removeItem("token");
-      this.router.navigate(["/"])
+      await this.shoppingCartService.deleteCart();
+      window.location.reload();
+      await this.router.navigate(["/"])
     }
   }
 
