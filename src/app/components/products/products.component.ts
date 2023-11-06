@@ -7,7 +7,7 @@ import {Category} from "../../models/Category";
 import {ActivatedRoute} from "@angular/router";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
 import {Order} from "../../models/Order";
-import {Cart} from "../../models/Cart";
+import {CartItem} from "../../models/CartItem";
 
 @Component({
   selector: 'app-products',
@@ -19,7 +19,7 @@ export class ProductsComponent implements OnInit {
   filteredProducts: Array<Product> = [];
   categories: Array<Category> = [];
   categoryName: string | null = null;
-  order: Order | null = null;
+
 
   constructor(private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute,
               private shoppingService: ShoppingCartService) {
@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    this.order=await this.shoppingService.getOrCreateCart();
+    await this.shoppingService.sendObservableInitCart();
     await this.shoppingService.sendObservableQuantity();
 
 

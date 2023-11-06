@@ -1,5 +1,5 @@
 import {Category} from "./Category";
-import {Cart} from "./Cart";
+import {CartItem} from "./CartItem";
 
 export class Product {
   productId: number=0;

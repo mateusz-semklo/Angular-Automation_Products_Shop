@@ -5,7 +5,7 @@ import {OrderService} from "../data/orders/order.service";
 import {Order} from "../../models/Order";
 import {firstValueFrom, lastValueFrom, Observable, Subject} from "rxjs";
 import {ProductService} from "../data/products/product.service";
-import {Cart} from "../../models/Cart";
+import {CartItem} from "../../models/CartItem";
 import {from} from 'rxjs';
 
 @Injectable({
@@ -16,35 +16,28 @@ export class ShoppingCartService {
   }
 
   private subjectQuantity = new Subject<number>();
+  private subjectOrder:Subject<Order>=new Subject();
+
   async sendObservableQuantity() {
-    console.log(await this.getQuantity());
     this.subjectQuantity.next(await this.getQuantity());
   }
 
   getObservableQuantity(): Observable<number> {
     return this.subjectQuantity.asObservable();
   }
+  async sendObservableInitCart() {
+    this.subjectOrder.next(await this.getOrCreateCart());
+  }
+  async sendObservableCart(cart:Order) {
+    this.subjectOrder.next(cart);
+  }
 
-  async updateOrCreateCart(cart: Cart) {
-    let order: Order = <Order>await this.getOrCreateCart();
-    console.log(cart);
-    if (cart.cartProductId == 0) {
-      let result_cart = <Cart>await firstValueFrom(this.cartsService.create(cart));
-      cart.cartProductId = result_cart.cartProductId;
-      order.carts.push(cart);
-    } else if (cart.count == 0) {
-      order.carts.splice(order.carts.indexOf(cart), 1);
-      await firstValueFrom(this.cartsService.delete(cart.cartProductId));
-    } else {
-      cart = <Cart>await firstValueFrom(this.cartsService.update(cart, cart.cartProductId));
-    }
+  getObservableCart(): Observable<Order> {
+    return this.subjectOrder.asObservable();
+  }
 
-    this.ordersService.update(order, order.orderId)
-      .subscribe((body) => {
-        console.log(<Order>body);
-      })
+  async updateCart(){
 
-    await this.sendObservableQuantity();
   }
 
   async getOrCreateCart() {
@@ -55,6 +48,7 @@ export class ShoppingCartService {
     let order: Order = new Order();
     order = <Order>await firstValueFrom(this.ordersService.create(order));
     localStorage.setItem("orderId", order.orderId.toString());
+    console.log("getOrCreateCart")
     return order;
   }
 
