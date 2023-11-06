@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     this.order=await this.shoppingService.getOrCreateCart();
-    this.shoppingService.getObservableQuantity();
+    await this.shoppingService.sendObservableQuantity();
 
 
     this.productService.getAll()

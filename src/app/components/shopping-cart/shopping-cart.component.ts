@@ -10,14 +10,22 @@ import {Order} from "../../models/Order";
 export class ShoppingCartComponent implements OnInit{
 
   order:Order|null=null;
+  quantity:number=0;
   constructor(private shoppingCartService:ShoppingCartService) {
   }
 
    async ngOnInit() {
-    this.order= await this.shoppingCartService.getOrCreateCart();
+    this.order= await this.shoppingCartService.getCart();
+     this.quantity=await this.shoppingCartService.getQuantity();
   }
 
-
+  totalCost(){
+    let totalCost:number=0;
+    this.order?.carts.forEach((cart)=>{
+      totalCost+=cart.count*cart.product.productPrice;
+    })
+    return totalCost;
+  }
 
 
 }

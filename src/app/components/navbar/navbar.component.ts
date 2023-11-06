@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async ngOnInit() {
 
     this.subscriptionName = this.shoppingCartService.getObservableQuantity().subscribe((quantity) => {
+      console.log("sunscribe");
       this.quantity = quantity;
     })
   }

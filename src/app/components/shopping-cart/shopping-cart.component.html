@@ -1,4 +1,30 @@
-<p>shopping-cart works!</p>
+<h1>Twój koszyk</h1>
+<ng-container *ngIf="order">
+  <p>Koszyk zawiera {{quantity}} produktów.</p>
+</ng-container>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Product</th>
+    <th>Ilość</th>
+    <th>Cena</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cart of order?.carts">
+    <td>{{cart.product.productName}}</td>
+    <td>{{cart.count}}</td>
+    <td>{{(cart.count * cart.product.productPrice) | currency:'PLN ':true}} </td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>{{(totalCost()) | currency:'PLN ':true}}</th>
+  </tr>
+  </tfoot>
+</table>
 
 
 

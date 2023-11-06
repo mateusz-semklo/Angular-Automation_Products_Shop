@@ -76,7 +76,7 @@ export class ShoppingCartService {
     }
   }
 
-  private async getQuantity() {
+   async getQuantity() {
     let order: Order = <Order>await this.getOrCreateCart();
     let quantity: number = 0;
     order.carts.forEach((cart) => {
