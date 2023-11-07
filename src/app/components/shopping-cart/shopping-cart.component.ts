@@ -7,24 +7,30 @@ import {Order} from "../../models/Order";
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css']
 })
-export class ShoppingCartComponent implements OnInit{
+export class ShoppingCartComponent implements OnInit {
 
-  order:Order|null=null;
-  quantity:number=0;
-  constructor(private shoppingCartService:ShoppingCartService) {
+  order: Order | null = null;
+  quantity: number = 0;
+
+  constructor(private shoppingCartService: ShoppingCartService) {
   }
 
-   async ngOnInit() {
-    this.order= await this.shoppingCartService.getCart();
-     this.quantity=await this.shoppingCartService.getQuantity();
+  async ngOnInit() {
+    this.order = await this.shoppingCartService.getCart();
+    this.quantity = await this.shoppingCartService.getQuantity();
   }
 
-  totalCost(){
-    let totalCost:number=0;
-    this.order?.carts.forEach((cart)=>{
-      totalCost+=cart.count*cart.product.productPrice;
+  totalCost() {
+    let totalCost: number = 0;
+    this.order?.carts.forEach((cart) => {
+      totalCost += cart.count * cart.product.productPrice;
     })
     return totalCost;
+  }
+
+  async clearCart(){
+    await this.shoppingCartService.deleteCart();
+    window.location.reload();
   }
 
 

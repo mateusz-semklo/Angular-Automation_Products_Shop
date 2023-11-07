@@ -98,7 +98,6 @@ export class ShoppingCartService{
       }
     }
 
-
   }
 
   async getOrCreateCart() {
@@ -128,6 +127,10 @@ export class ShoppingCartService{
     let orderId: string | null = localStorage.getItem("orderId");
     if (orderId) {
       let order: Order | null = await this.getCart();
+      order?.carts.forEach((cartItem)=>{
+        this.deleteCartItem(cartItem);
+      })
+      order?.carts.splice(0,order?.carts.length)
       if (order) <Order>await firstValueFrom(this.ordersService.delete(Number.parseInt(orderId)));
       localStorage.removeItem("orderId");
       let quantity: number = 0;
@@ -137,9 +140,11 @@ export class ShoppingCartService{
   async getQuantity() {
     let order: Order = <Order>await this.getCart();
     let quantity: number = 0;
-    order.carts.forEach((cart) => {
-      quantity += cart.count;
-    })
+    if(order) {
+      order.carts.forEach((cart) => {
+        quantity += cart.count;
+      })
+    }
     return quantity;
   }
 
