@@ -1,1 +1,15 @@
-
+<div class="row">
+  <div class="col-2">
+    <div class="d-grid gap-1">
+      <button class="btn btn-secondary" (click)="addToCart()">+</button>
+    </div>
+  </div>
+  <div class="col text-center">
+    Szt. {{cartItem?.count}}
+  </div>
+  <div class="col-2">
+    <div class="d-grid gap-1">
+      <button class="btn btn-secondary" (click)="removeFromCart()">-</button>
+    </div>
+  </div>
+</div>

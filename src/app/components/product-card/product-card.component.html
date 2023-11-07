@@ -5,21 +5,11 @@
     <p class="card-text">{{product.productPrice | currency:'PLN'}}</p>
   </div>
   <div class="card-footer" *ngIf="showAction">
-    <button *ngIf="cartItem?.count===0 || cartItem==null; else updateBlock" class="btn btn-secondary w-100" (click)="addToCart()">Dodaj do
-      koszyka
+    <button *ngIf="cartItem?.count===0 || cartItem==null; else updateBlock" class="btn btn-secondary w-100"
+            (click)="addToCart()">Dodaj do koszyka
     </button>
     <ng-template #updateBlock>
-      <div class="row">
-        <div class="col-2">
-          <button class="btn btn-secondary btn-block" (click)="addToCart()">+</button>
-        </div>
-        <div class="col text-center">
-          Szt. {{cartItem?.count}}
-        </div>
-        <div class="col-2">
-          <button class="btn btn-secondary btn-block" (click)="removeFromCart()">-</button>
-        </div>
-      </div>
+      <product-quantity [product]="product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)" ></product-quantity>
     </ng-template>
   </div>
 </div>

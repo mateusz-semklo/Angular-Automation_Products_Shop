@@ -1,30 +1,37 @@
 <h1>Twój koszyk</h1>
-<ng-container *ngIf="order">
+<ng-container *ngIf="cart">
   <p>Koszyk zawiera {{quantity}} produktów.</p>
 </ng-container>
+
 <table class="table">
   <thead>
   <tr>
-    <th>Product</th>
+    <th></th>
+    <th>Produkt</th>
     <th>Ilość</th>
-    <th>Cena</th>
+    <th class="text-end">Cena</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let cart of order?.carts">
-    <td>{{cart.product.productName}}</td>
-    <td>{{cart.count}}</td>
-    <td>{{(cart.count * cart.product.productPrice) | currency:'PLN ':true}} </td>
+  <tr *ngFor="let cartItem of cart?.carts">
+    <td><img [src]="cartItem.product.productImageUrl" alt="..." class="thumbnail"></td>
+    <td>{{cartItem.product.productName}}</td>
+    <td><ng-container *ngIf="cartItem.count>0">
+      <product-quantity [product]="cartItem.product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)"></product-quantity>
+    </ng-container></td>
+    <td class="m-2 text-end">{{(cartItem.count * cartItem.product.productPrice) | currency:'PLN ':true}} </td>
   </tr>
   </tbody>
   <tfoot>
   <tr>
     <th></th>
     <th></th>
-    <th>{{(totalCost()) | currency:'PLN ':true}}</th>
+    <th></th>
+    <th class="text-end">{{(totalCost()) | currency:'PLN ':true}}</th>
   </tr>
   </tfoot>
 </table>
+<button class="btn btn-danger btn-sm" (click)="clearCart()">Wyczyść koszyk</button>
 
 
 

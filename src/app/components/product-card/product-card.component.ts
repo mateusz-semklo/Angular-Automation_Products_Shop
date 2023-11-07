@@ -37,4 +37,9 @@ export class ProductCardComponent implements OnInit {
     console.log(this.cartItem);
   }
 
+  getCartItem(cartItem:CartItem){
+    this.cartItem=cartItem;
+
+  }
+
 }

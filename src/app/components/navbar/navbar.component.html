@@ -9,7 +9,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" routerLink="/shopping-cart">
-            Shopping CartItem
+            Koszyk
             <span class="badge text-bg-warning">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
                    viewBox="0 0 16 16"><path
@@ -19,18 +19,18 @@
           </a>
         </li>
         <li *ngIf="!authService.isLoggedIn()" class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
+          <a class="nav-link" routerLink="/login">Zaloguj się</a>
         </li>
         <li *ngIf="authService.isLoggedIn()" ngbDropdown class="nav-item dropdown ">
           <a ngbDropdownToggle class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
              aria-expanded="false">{{authService.currentUser()}}</a>
           <ul ngbDropdownMenu class="dropdown-menu ">
-            <li><a ngbDropdownItem class="dropdown-item" routerLink="/user/orders">My Orders</a></li>
+            <li><a ngbDropdownItem class="dropdown-item" routerLink="/user/orders">Moje zamówienia</a></li>
             <ng-container *ngIf="authService.isAdmin()">
-              <li><a ngbDropdownItem class="dropdown-item" routerLink="/admin/orders">Manage Orders</a></li>
-              <li><a ngbDropdownItem class="dropdown-item" routerLink="/admin/products">Manage Products</a></li>
+              <li><a ngbDropdownItem class="dropdown-item" routerLink="/admin/orders">Zarządzaj zamówieniami</a></li>
+              <li><a ngbDropdownItem class="dropdown-item" routerLink="/admin/products">Zarządzaj produktami</a></li>
             </ng-container>
-            <li><a ngbDropdownItem class="dropdown-item" (click)="logout()">Logout</a></li>
+            <li><a ngbDropdownItem class="dropdown-item" (click)="logout()">Wyloguj się</a></li>
           </ul>
         </li>
       </ul>
