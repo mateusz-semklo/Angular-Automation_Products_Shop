@@ -4,7 +4,7 @@ import {ProductService} from "../../services/data/products/product.service";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
 import {json} from "ng2-validation/dist/json";
 import {Order} from "../../models/Order";
-import {Cart} from "../../models/Cart";
+import {CartItem} from "../../models/CartItem";
 import {ActivatedRoute, Router} from "@angular/router";
 import {OrderService} from "../../services/data/orders/order.service";
 import {query} from "@angular/animations";
@@ -17,41 +17,33 @@ import {query} from "@angular/animations";
 export class ProductCardComponent implements OnInit {
   @Input("product") product: Product = new Product();
   @Input("show-action") showAction = true;
-  @Input("shopping-cart") order: Order | null = null;
+  @Input("cart") cart: Order | null = null;
 
-  cart: Cart = new Cart();
+  cartItem:CartItem|null=null;
 
   constructor( private shoppingCartService: ShoppingCartService) {
   }
 
   async addToCart() {
-    this.cart.count++;
-    this.cart.product = this.product;
-    console.log(this.cart.count);
-    await this.shoppingCartService.updateOrCreateCart(this.cart);
+    this.cartItem=await this.shoppingCartService.addToCart(this.product);
   }
 
   async removeFromCart() {
-    if (this.cart.count > 0)
-      this.cart.count--;
-    else this.cart.count = 0;
-
-    this.cart.product = this.product;
-    await this.shoppingCartService.updateOrCreateCart(this.cart);
+    this.cartItem=await this.shoppingCartService.removeFromCart(this.product);
   }
 
-  ngOnInit(): void {
-    this.updateCount();
+  async ngOnInit() {
+    this.cartItem=await this.shoppingCartService.getCartItem(this.product);
+    console.log("cartItem get from ngInit in product-cart");
+    console.log(this.cartItem);
   }
 
-  updateCount() {
-    let carts: Cart[] = <Cart[]>this.order?.carts.filter((cart) => {
-      return (this.product.productId == (<Product>cart.product).productId)
-    })
-    if (carts.length > 0) {
-      this.cart = <Cart>carts.at(0);
-    }
-    console.log(this.cart);
-  }
-
+  //updateCount() {
+  //  let carts: CartItem[] = <CartItem[]>this.cart?.carts.filter((cart) => {
+   //   return (this.product.productId == (<Product>cart.product).productId)
+  //  })
+  //  if (carts.length > 0) {
+  //    this.cartItem = <CartItem>carts.at(0);
+  //  }
+ // }
 }

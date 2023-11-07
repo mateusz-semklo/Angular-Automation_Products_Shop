@@ -1,6 +1,6 @@
 import {User} from "./User";
 import {Product} from "./Product";
-import {Cart} from "./Cart";
+import {CartItem} from "./CartItem";
 
 export class Order {
   orderId: number = 0;
@@ -10,6 +10,6 @@ export class Order {
   orderCountry: string |null = null;
   orderPostCode: string |null = null;
   user: User |null = null;
-  carts: Array<Cart> = [];
+  carts: Array<CartItem> = [];
 
 }

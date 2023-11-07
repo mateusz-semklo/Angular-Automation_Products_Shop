@@ -5,7 +5,7 @@ import {OrderService} from "../data/orders/order.service";
 import {Order} from "../../models/Order";
 import {firstValueFrom, lastValueFrom, Observable, Subject} from "rxjs";
 import {ProductService} from "../data/products/product.service";
-import {Cart} from "../../models/Cart";
+import {CartItem} from "../../models/CartItem";
 import {from} from 'rxjs';
 
 @Injectable({
@@ -15,47 +15,90 @@ export class ShoppingCartService {
   constructor(private cartsService: CartsService, private ordersService: OrderService, private productService: ProductService) {
   }
 
-  private subjectQuantity = new Subject<number>();
-  async sendObservableQuantity() {
-    console.log(await this.getQuantity());
-    this.subjectQuantity.next(await this.getQuantity());
+  async addToCart(product: Product) {
+    return await this.updateCart(true, product)
   }
 
-  getObservableQuantity(): Observable<number> {
-    return this.subjectQuantity.asObservable();
+  async removeFromCart(product: Product) {
+    return await this.updateCart(false, product)
   }
 
-  async updateOrCreateCart(cart: Cart) {
-    let order: Order = <Order>await this.getOrCreateCart();
-    console.log(cart);
-    if (cart.cartProductId == 0) {
-      let result_cart = <Cart>await firstValueFrom(this.cartsService.create(cart));
-      cart.cartProductId = result_cart.cartProductId;
-      order.carts.push(cart);
-    } else if (cart.count == 0) {
-      order.carts.splice(order.carts.indexOf(cart), 1);
-      await firstValueFrom(this.cartsService.delete(cart.cartProductId));
+  async updateCart(state: boolean, product: Product) {
+    let cartItem = <CartItem>await this.getCartItem(product);
+    let cart: Order = <Order>await this.getOrCreateCart();
+    if (state) {
+      if (cartItem == null || cartItem.cartProductId == 0) {
+        let cartItem: CartItem = <CartItem>await this.createCartItem(product);
+        console.log("cartItem created in shoppingCart");
+        console.log(cartItem);
+        cart.carts.push(cartItem);
+        cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
+        console.log("cart update in shoppingCart");
+        console.log(cart);
+        return cartItem;
+      } else {
+        cartItem.count++;
+        cartItem = await this.updateCartItem(cartItem);
+        console.log("cartItem update ++count in shoppingCart");
+        console.log(cartItem);
+        cart = <Order>await this.getCart();
+        console.log("cart update in shoppingCart");
+        console.log(cart);
+        return cartItem;
+      }
     } else {
-      cart = <Cart>await firstValueFrom(this.cartsService.update(cart, cart.cartProductId));
+      if (cartItem.count > 1) {
+        cartItem.count--;
+        cartItem = await this.updateCartItem(cartItem);
+        console.log("cartItem update --count in shoppingCart");
+        console.log(cartItem);
+        cart = <Order>await this.getCart();
+        console.log("cart update in shoppingCart");
+        console.log(cart);
+        return cartItem;
+      } else if (cartItem.count == 1) {
+
+        cart = <Order>await this.getCart();
+
+        let carts=cart.carts.filter((cartItemx)=>{
+          return (cartItemx.cartProductId==cartItem.cartProductId)
+        });
+        let cartItemResult=carts.at(0);
+        let index:number=cart.carts.indexOf(<CartItem>cartItemResult);
+        console.log("index");
+        console.log(index);
+
+        cart.carts.splice(index, 1);
+        this.deleteCartItem(cartItem);
+        console.log("cartItem delete cartItem in shoppingCart");
+
+        cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
+        console.log("cart update in shoppingCart");
+        console.log(cart);
+        return null;
+      } else {
+        return null;
+
+      }
     }
 
-    this.ordersService.update(order, order.orderId)
-      .subscribe((body) => {
-        console.log(<Order>body);
-      })
 
-    await this.sendObservableQuantity();
   }
 
   async getOrCreateCart() {
-    let orderId: string | null = localStorage.getItem("orderId");
-    if (orderId)
-      return <Order>await firstValueFrom(this.ordersService.getById(Number.parseInt(orderId)));
+    let cart: Order | null;
+    if ((cart = await this.getCart())) {
+      console.log("found cart in shopping service")
+      console.log(cart);
+      return cart;
+    }
 
-    let order: Order = new Order();
-    order = <Order>await firstValueFrom(this.ordersService.create(order));
-    localStorage.setItem("orderId", order.orderId.toString());
-    return order;
+    cart = new Order();
+    cart = <Order>await firstValueFrom(this.ordersService.create(cart));
+    console.log("create cart in shopping service");
+    console.log(cart);
+    localStorage.setItem("orderId", cart.orderId.toString());
+    return cart;
   }
 
   async getCart() {
@@ -71,18 +114,45 @@ export class ShoppingCartService {
       let order: Order | null = await this.getCart();
       if (order) <Order>await firstValueFrom(this.ordersService.delete(Number.parseInt(orderId)));
       localStorage.removeItem("orderId");
-      let quantity:number=0;
-      await this.sendObservableQuantity();
+      let quantity: number = 0;
     }
   }
 
-   async getQuantity() {
-    let order: Order = <Order>await this.getOrCreateCart();
+  async getQuantity() {
+    let order: Order = <Order>await this.getCart();
     let quantity: number = 0;
     order.carts.forEach((cart) => {
       quantity += cart.count;
     })
     return quantity;
+  }
+
+////////////////////CartItem///////////////////////////
+  async getCartItem(product: Product) {
+    let cart = await this.getCart();
+    let carts: CartItem[] = <CartItem[]>cart?.carts.filter((cart) => {
+      return (product.productId == (<Product>cart.product).productId)
+    })
+    if (carts.length > 0) {
+      return <CartItem>carts.at(0);
+    } else {
+      return null;
+    }
+  }
+
+  async createCartItem(product: Product) {
+    let cartItem: CartItem = new CartItem();
+    cartItem.count = 1;
+    cartItem.product = product;
+    return <CartItem>await firstValueFrom(this.cartsService.create(cartItem));
+  }
+
+  async updateCartItem(cartItem: CartItem) {
+    return <CartItem>await firstValueFrom(this.cartsService.update(cartItem, cartItem.cartProductId));
+  }
+
+  deleteCartItem(cartItem: CartItem) {
+    this.cartsService.delete(cartItem.cartProductId).subscribe();
   }
 
 

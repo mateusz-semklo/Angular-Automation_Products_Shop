@@ -5,7 +5,7 @@
     <p class="card-text">{{product.productPrice | currency:'PLN'}}</p>
   </div>
   <div class="card-footer" *ngIf="showAction">
-    <button *ngIf="cart.count===0; else updateBlock" class="btn btn-secondary w-100" (click)="addToCart()">Dodaj do
+    <button *ngIf="cartItem?.count===0 || cartItem==null; else updateBlock" class="btn btn-secondary w-100" (click)="addToCart()">Dodaj do
       koszyka
     </button>
     <ng-template #updateBlock>
@@ -14,7 +14,7 @@
           <button class="btn btn-secondary btn-block" (click)="addToCart()">+</button>
         </div>
         <div class="col text-center">
-          Szt. {{cart.count}}
+          Szt. {{cartItem?.count}}
         </div>
         <div class="col-2">
           <button class="btn btn-secondary btn-block" (click)="removeFromCart()">-</button>
