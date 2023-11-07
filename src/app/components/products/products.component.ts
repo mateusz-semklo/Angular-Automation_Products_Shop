@@ -21,16 +21,13 @@ export class ProductsComponent implements OnInit {
   categoryName: string | null = null;
   cart: Order | null = null;
 
-  constructor(private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute,
-              private shoppingService: ShoppingCartService) {
+  constructor(private productService: ProductService, private route: ActivatedRoute,private shoppingService:ShoppingCartService) {
   }
 
   async ngOnInit(): Promise<void> {
 
     this.cart=await this.shoppingService.getOrCreateCart();
-    console.log("cart get from ngInit in products-component")
-   // await this.shoppingService.sendObservableQuantity();
-
+    await this.shoppingService.sendObservableQuantity();
 
     this.productService.getAll()
       .subscribe({

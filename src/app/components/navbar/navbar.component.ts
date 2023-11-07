@@ -13,21 +13,19 @@ import {Order} from "../../models/Order";
 export class NavbarComponent implements OnInit, OnDestroy {
 
   quantity: number = 0;
-  private subscriptionName: Subscription = new Subscription();
+  private subscriptionQuantity: Subscription = new Subscription();
 
-  constructor(public authService: AuthService, private shoppingCartService: ShoppingCartService) {
+  constructor(public authService: AuthService, public shoppingCartService: ShoppingCartService) {
   }
   async ngOnInit() {
-
-  //  this.subscriptionName = this.shoppingCartService.getObservableQuantity().subscribe((quantity) => {
-   //   console.log("sunscribe");
-   //   this.quantity = quantity;
-  //  })
+    this.subscriptionQuantity = this.shoppingCartService.getObservableQuantity().subscribe((quantity) => {
+      this.quantity = quantity;
+    })
   }
   ngOnDestroy(): void {
-    this.subscriptionName.unsubscribe();
+    this.subscriptionQuantity.unsubscribe();
   }
-  logout(){
-    this.authService.logout();
+  async logout(){
+    await this.authService.logout();
   }
 }

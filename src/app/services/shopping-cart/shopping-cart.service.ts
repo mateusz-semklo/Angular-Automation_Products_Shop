@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Product} from "../../models/Product";
 import {CartsService} from "../data/carts/carts.service";
 import {OrderService} from "../data/orders/order.service";
@@ -7,12 +7,24 @@ import {firstValueFrom, lastValueFrom, Observable, Subject} from "rxjs";
 import {ProductService} from "../data/products/product.service";
 import {CartItem} from "../../models/CartItem";
 import {from} from 'rxjs';
+import {state} from "@angular/animations";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShoppingCartService {
-  constructor(private cartsService: CartsService, private ordersService: OrderService, private productService: ProductService) {
+export class ShoppingCartService{
+
+  private subjectQuantity = new Subject<number>();
+  constructor(private cartsService: CartsService, private ordersService: OrderService) {
+  }
+
+  async sendObservableQuantity() {
+    this.subjectQuantity.next(await this.getQuantity());
+  }
+
+  getObservableQuantity(): Observable<number> {
+    return this.subjectQuantity.asObservable();
   }
 
   async addToCart(product: Product) {
@@ -35,6 +47,7 @@ export class ShoppingCartService {
         cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
         console.log("cart update in shoppingCart");
         console.log(cart);
+        await this.sendObservableQuantity();
         return cartItem;
       } else {
         cartItem.count++;
@@ -44,6 +57,7 @@ export class ShoppingCartService {
         cart = <Order>await this.getCart();
         console.log("cart update in shoppingCart");
         console.log(cart);
+        await this.sendObservableQuantity();
         return cartItem;
       }
     } else {
@@ -55,6 +69,7 @@ export class ShoppingCartService {
         cart = <Order>await this.getCart();
         console.log("cart update in shoppingCart");
         console.log(cart);
+        await this.sendObservableQuantity();
         return cartItem;
       } else if (cartItem.count == 1) {
 
@@ -75,6 +90,7 @@ export class ShoppingCartService {
         cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
         console.log("cart update in shoppingCart");
         console.log(cart);
+        await this.sendObservableQuantity();
         return null;
       } else {
         return null;
@@ -154,6 +170,8 @@ export class ShoppingCartService {
   deleteCartItem(cartItem: CartItem) {
     this.cartsService.delete(cartItem.cartProductId).subscribe();
   }
+
+
 
 
 }

@@ -17,7 +17,6 @@ import {query} from "@angular/animations";
 export class ProductCardComponent implements OnInit {
   @Input("product") product: Product = new Product();
   @Input("show-action") showAction = true;
-  @Input("cart") cart: Order | null = null;
 
   cartItem:CartItem|null=null;
 
@@ -38,12 +37,4 @@ export class ProductCardComponent implements OnInit {
     console.log(this.cartItem);
   }
 
-  //updateCount() {
-  //  let carts: CartItem[] = <CartItem[]>this.cart?.carts.filter((cart) => {
-   //   return (this.product.productId == (<Product>cart.product).productId)
-  //  })
-  //  if (carts.length > 0) {
-  //    this.cartItem = <CartItem>carts.at(0);
-  //  }
- // }
 }

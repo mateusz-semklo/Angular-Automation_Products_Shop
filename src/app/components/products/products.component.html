@@ -6,7 +6,7 @@
     <div class="row">
       <ng-container *ngFor="let product of filteredProducts; let i=index">
         <div class="col-sm-6">
-          <product-card [product]="product" [show-action]=true [cart]="cart" ></product-card>
+          <product-card [product]="product" [show-action]=true  ></product-card>
         </div>
         <div *ngIf="(i+1) % 2 ===0" class="w-100"></div>
       </ng-container>
