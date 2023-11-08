@@ -13,6 +13,7 @@
   </tr>
   </thead>
   <tbody>
+<<<<<<< HEAD
   <tr *ngFor="let cartItem of cart?.carts">
     <td><img [src]="cartItem.product.productImageUrl" alt="..." class="thumbnail"></td>
     <td>{{cartItem.product.productName}}</td>
@@ -20,6 +21,12 @@
       <product-quantity [product]="cartItem.product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)"></product-quantity>
     </ng-container></td>
     <td class="m-2 text-end">{{(cartItem.count * cartItem.product.productPrice) | currency:'PLN ':true}} </td>
+=======
+  <tr *ngFor="let cart of order?.carts">
+    <td>{{cart.product.productName}}</td>
+    <td><ng-container *ngIf="cart.count>0"><product-quantity [product]="cart.product"></product-quantity></ng-container></td>
+    <td>{{(cart.count * cart.product.productPrice) | currency:'PLN ':true}} </td>
+>>>>>>> 213ba1a7da7a2ee7ef190301e51b3d2ef40b6975
   </tr>
   </tbody>
   <tfoot>
