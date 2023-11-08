@@ -19,7 +19,7 @@
     <td><ng-container *ngIf="cartItem.count>0">
       <product-quantity [product]="cartItem.product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)"></product-quantity>
     </ng-container></td>
-    <td class="m-2 text-end">{{(cartItem.count * cartItem.product.productPrice) | currency:'PLN ':true}} </td>
+    <td class="text-end">{{(cartItem.count * cartItem.product.productPrice) | currency:'PLN ':true}} </td>
   </tr>
   </tbody>
   <tfoot>
@@ -31,7 +31,8 @@
   </tr>
   </tfoot>
 </table>
-<button class="btn btn-danger btn-sm" (click)="clearCart()">Wyczyść koszyk</button>
+<a *ngIf="quantity>0" class="btn btn-primary btn-sm m-2" routerLink="/user/check-out">Złóż zamówienie</a>
+<button *ngIf="quantity>0" class="btn btn-warning btn-sm m-2" (click)="clearCart()">Wyczyść koszyk</button>
 
 
 

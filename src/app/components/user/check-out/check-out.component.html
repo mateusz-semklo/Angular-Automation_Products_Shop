@@ -1,1 +1,35 @@
-<p>check-out works!</p>
+<div class="row">
+  <div class="col-sm-6">
+    <form [formGroup]="form" (ngSubmit)="checkout()">
+      <h2>Dane dostawy i płatność</h2>
+      <div class="mb-2">
+        <label for="orderStreet" class="form-label">Ulica:</label>
+        <input class="form-control" type="text" id="orderStreet" name="orderStreet" formControlName="orderStreet" placeholder="wpisz ulice i numer domu">
+        <div class="alert alert-danger" *ngIf="form.get('orderStreet')?.touched && form.get('orderStreet')?.invalid">Adres jest wymagany</div>
+      </div>
+      <div class="mb-2">
+        <label for="orderPostCode" class="form-label">Poczta:</label>
+        <input class="form-control" type="text" id="orderPostCode" name="orderPostCode" formControlName="orderPostCode" placeholder="podaj adres poczty">
+        <div class="alert alert-danger" *ngIf="form.get('orderPostCode')?.touched && form.get('orderPostCode')?.invalid">Adres poczty jest wymagany</div>
+      </div>
+      <div class="mb-2">
+        <label for="orderCity" class="form-label">Miasto:</label>
+        <input class="form-control" type="text" id="orderCity" name="orderCity" formControlName="orderCity" placeholder="wpisz miasto">
+        <div class="alert alert-danger" *ngIf="form.get('orderCity')?.touched && form.get('orderCity')?.invalid">Wpisz miasto</div>
+      </div>
+      <div class="mb-2">
+        <label for="orderCountry" class="form-label">Kraj:</label>
+        <input class="form-control" type="text" id="orderCountry" name="orderCountry" formControlName="orderCountry" placeholder="wpisz kraj">
+        <div class="alert alert-danger" *ngIf="form.get('orderCountry')?.touched && form.get('orderCountry')?.invalid">Wpisz kraj</div>
+      </div>
+
+      <button class="btn btn-primary m-2" type="submit">Złóż zamówienie</button>
+      <button class="btn btn-warning m-2" type="button" (click)="delete()">Usuń zamówienie</button>
+
+    </form>
+  </div>
+  <div class="col-sm-6">
+    <shopping-cart-summary [cart]="cart"></shopping-cart-summary>
+  </div>
+</div>
+

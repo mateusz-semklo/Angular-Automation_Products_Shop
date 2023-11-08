@@ -1,7 +1,10 @@
 <div class="row">
   <div class="col-sm-6">
     <form [formGroup]="form" (ngSubmit)="create()">
-      <div>
+      <h2>
+        Dodaj produkt
+      </h2>
+      <div class="mb-2">
         <label class="form-label" for="productName">Nazwa produktu:</label>
         <input class="form-control" formControlName="productName" type="text" id="productName"
                placeholder="Wpisz nazwę produktu" name="productName">
@@ -9,7 +12,7 @@
           Nazwa produktu jest wymagana.
         </div>
       </div>
-      <div>
+      <div class="mb-2">
         <label class="form-label" for="productPrice">Cena:</label>
         <div class="input-group">
           <span class="input-group-text" id="basic-addon1">zł</span>
@@ -21,7 +24,7 @@
           <div *ngIf="form.get('productPrice')?.getError('min')">Cena musi być większa od zera</div>
         </div>
       </div>
-      <div>
+      <div class="mb-2">
         <label class="form-label" for="productImageUrl">Adres URL zdjęcia:</label>
         <input class="form-control" formControlName="productImageUrl" type="text" id="productImageUrl"
                placeholder="Podaj adres url zdjęcia" name="productImageUrl">
@@ -31,7 +34,7 @@
           <div *ngIf="form.get('productImageUrl')?.getError('url')">Proszę, wpisz prawidłowy adres url</div>
         </div>
       </div>
-      <div formGroupName="category">
+      <div formGroupName="category" class="mb-2">
         <label class="form-label" for="category">Wybierz kategorie:</label>
         <select class="form-select" formControlName="categoryName" id="category" name="category">
           <option></option>
@@ -41,7 +44,7 @@
           Kategoria produktu jest wymagana.
         </div>
       </div>
-      <div>
+      <div class="mb-2">
         <label class="form-label" for="productDescription">Opis produktu:</label>
         <textarea class="form-control" formControlName="productDescription" id="productDescription"
                   name="productDescription" rows="3"></textarea>
@@ -51,10 +54,11 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit">Zapisz produkt</button>
-      <button class="btn btn-danger" type="button" (click)="delete()">Usuń</button>
+      <button class="btn btn-primary m-2" type="submit">Zapisz produkt</button>
+      <button class="btn btn-warning m-2" type="button" (click)="delete()">Usuń</button>
     </form>
   </div>
+
   <div class="col-sm-6">
     <product-card [product]="this.form.value" [show-action]=false></product-card>
   </div>

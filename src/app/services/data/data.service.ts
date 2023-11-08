@@ -23,7 +23,7 @@ export class DataService {
             catchError((error:HttpResponse<any>)=>{throw this.handleError(error);})
         )
   }
-    getById(id:number){
+    getById(id:number|string){
         return this.httpClient.get(this.url+'/'+id,{observe:"response",responseType:"json",headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
             .pipe(
                 map((response)=>{
