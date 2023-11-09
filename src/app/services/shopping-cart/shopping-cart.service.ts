@@ -41,22 +41,14 @@ export class ShoppingCartService{
     if (state) {
       if (cartItem == null || cartItem.cartProductId == 0) {
         let cartItem: CartItem = <CartItem>await this.createCartItem(product);
-        console.log("cartItem created in shoppingCart");
-        console.log(cartItem);
         cart.carts.push(cartItem);
         cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
-        console.log("cart update in shoppingCart");
-        console.log(cart);
         await this.sendObservableQuantity();
         return cartItem;
       } else {
         cartItem.count++;
         cartItem = await this.updateCartItem(cartItem);
-        console.log("cartItem update ++count in shoppingCart");
-        console.log(cartItem);
         cart = <Order>await this.getCart();
-        console.log("cart update in shoppingCart");
-        console.log(cart);
         await this.sendObservableQuantity();
         return cartItem;
       }
@@ -64,11 +56,7 @@ export class ShoppingCartService{
       if (cartItem.count > 1) {
         cartItem.count--;
         cartItem = await this.updateCartItem(cartItem);
-        console.log("cartItem update --count in shoppingCart");
-        console.log(cartItem);
         cart = <Order>await this.getCart();
-        console.log("cart update in shoppingCart");
-        console.log(cart);
         await this.sendObservableQuantity();
         return cartItem;
       } else if (cartItem.count == 1) {
@@ -80,21 +68,15 @@ export class ShoppingCartService{
         });
         let cartItemResult=carts.at(0);
         let index:number=cart.carts.indexOf(<CartItem>cartItemResult);
-        console.log("index");
-        console.log(index);
 
         cart.carts.splice(index, 1);
         this.deleteCartItem(cartItem);
-        console.log("cartItem delete cartItem in shoppingCart");
 
         cart = <Order>await firstValueFrom(this.ordersService.update(cart, cart.orderId));
-        console.log("cart update in shoppingCart");
-        console.log(cart);
         await this.sendObservableQuantity();
         return null;
       } else {
         return null;
-
       }
     }
 
@@ -103,15 +85,11 @@ export class ShoppingCartService{
   async getOrCreateCart() {
     let cart: Order | null;
     if ((cart = await this.getCart())) {
-      console.log("found cart in shopping service")
-      console.log(cart);
       return cart;
     }
 
     cart = new Order();
     cart = <Order>await firstValueFrom(this.ordersService.create(cart));
-    console.log("create cart in shopping service");
-    console.log(cart);
     localStorage.setItem("orderId", cart.orderId.toString());
     return cart;
   }
@@ -131,7 +109,7 @@ export class ShoppingCartService{
         this.deleteCartItem(cartItem);
       })
       order?.carts.splice(0,order?.carts.length)
-      if (order) <Order>await firstValueFrom(this.ordersService.delete(Number.parseInt(orderId)));
+      if (order) await firstValueFrom(this.ordersService.delete(Number.parseInt(orderId)));
       localStorage.removeItem("orderId");
       let quantity: number = 0;
     }

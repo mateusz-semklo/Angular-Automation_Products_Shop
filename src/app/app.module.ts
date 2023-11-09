@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -39,6 +39,7 @@ import {ShoppingCartService} from "./services/shopping-cart/shopping-cart.servic
 import {CartsService} from "./services/data/carts/carts.service";
 import { ProductQuantityComponent } from './components/product-quantity/product-quantity.component';
 import { ShoppingCartSummaryComponent } from './components/user/shopping-cart-summary/shopping-cart-summary.component';
+import {AppErrorHandler} from "./common/errors/AppErrorHandler";
 
 
 @NgModule({
@@ -111,7 +112,8 @@ import { ShoppingCartSummaryComponent } from './components/user/shopping-cart-su
     PaginatorIntlService,
     UrlsService,
     ShoppingCartService,
-    CartsService
+    CartsService,
+    {provide:ErrorHandler,useClass:AppErrorHandler}
   ],
   bootstrap: [AppComponent]
 })

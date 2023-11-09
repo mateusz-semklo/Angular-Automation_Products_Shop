@@ -1,1 +1,37 @@
-<p>admin-orders works!</p>
+<h1>Zamówienia użytkowników</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Lp.</th>
+    <th>ID zamówienia</th>
+    <th>Użytkownik</th>
+    <th>Data</th>
+    <th>Ilość</th>
+    <th>Cena</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders;let i=index;">
+    <td>{{i+1}}</td>
+    <td>{{order.orderId}}</td>
+    <td>{{order.user?.username}}</td>
+    <td>{{order.orderDate}}</td>
+    <td>{{ getTotalQuantityOrder(order)}}</td>
+    <td>{{getTotalPriceOrder(order) | currency : 'PLN '}}</td>
+    <th><button class="btn btn-secondary" (click)="deleteOrder(order)">Usuń</button></th>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>szt. {{getTotalQuantity()}}</th>
+    <th>{{getTotalPrice()| currency : 'PLN '}}</th>
+    <th></th>
+  </tr>
+  </tfoot>
+</table>

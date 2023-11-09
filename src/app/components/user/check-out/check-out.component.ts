@@ -49,7 +49,7 @@ export class CheckOutComponent implements OnInit {
       this.cart.orderPostCode = this.form.get("orderPostCode")?.value;
       this.cart.orderCity = this.form.get("orderCity")?.value;
       this.cart.orderCountry = this.form.get("orderCountry")?.value;
-      this.orderService.update(this.cart, Number.parseInt(<string>localStorage.getItem("orderId")));
+      this.orderService.update(this.cart, Number.parseInt(<string>localStorage.getItem("orderId"))).subscribe();
       if (localStorage.getItem("orderId")) localStorage.removeItem("orderId");
     }
     await this.router.navigate(["/user/order-success",this.user?.username]);

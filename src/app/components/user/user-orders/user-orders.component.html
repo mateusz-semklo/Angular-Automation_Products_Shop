@@ -1,1 +1,29 @@
-<p>my-orders works!</p>
+<h1>Twoje zamówienia</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Lp.</th>
+    <th>Data</th>
+    <th>Ilość</th>
+    <th>Cena</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders;let i=index;">
+    <td>{{i+1}}</td>
+    <td>{{order.orderDate}}</td>
+    <td>{{ getTotalQuantityOrder(order)}}</td>
+    <td>{{getTotalPriceOrder(order) | currency : 'PLN '}}</td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>szt. {{getTotalQuantity()}}</th>
+    <th>{{getTotalPrice()| currency : 'PLN '}}</th>
+  </tr>
+  </tfoot>
+</table>
+
