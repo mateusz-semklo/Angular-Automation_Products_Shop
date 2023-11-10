@@ -19,6 +19,7 @@ export class ProductCardComponent implements OnInit {
   @Input("show-action") showAction = true;
 
   cartItem:CartItem|null=null;
+  public isCollapsed = true;
 
   constructor( private shoppingCartService: ShoppingCartService) {
   }
@@ -32,6 +33,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   async ngOnInit() {
+
     this.cartItem=await this.shoppingCartService.getCartItem(this.product);
     console.log("cartItem get from ngInit in product-cart");
     console.log(this.cartItem);

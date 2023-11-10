@@ -4,12 +4,31 @@
     <h5 class="card-title">{{product.productName}}</h5>
     <p class="card-text">{{product.productPrice | currency:'PLN'}}</p>
   </div>
+  <div *ngIf="showAction" class="bg-light">
+
+    <button
+      type="button"
+      class="btn btn-outline-secondary w-100"
+      (click)="isCollapsed = ! isCollapsed"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      Szczegóły produktu
+    </button>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="card">
+        <div class="card-body">{{product.productDescription}}</div>
+      </div>
+    </div>
+  </div>
   <div class="card-footer" *ngIf="showAction">
     <button *ngIf="cartItem?.count===0 || cartItem==null; else updateBlock" class="btn btn-secondary w-100"
             (click)="addToCart()">Dodaj do koszyka
     </button>
     <ng-template #updateBlock>
-      <product-quantity [product]="product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)" ></product-quantity>
+      <product-quantity [product]="product" [cartItem]="cartItem"
+                        (eventCartItem)="getCartItem($event)"></product-quantity>
     </ng-template>
   </div>
 </div>
+

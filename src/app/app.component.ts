@@ -1,6 +1,7 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, HostListener, OnDestroy} from '@angular/core';
 import {Order} from "./models/Order";
 import {OrderService} from "./services/data/orders/order.service";
+import {ShoppingCartService} from "./services/shopping-cart/shopping-cart.service";
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,25 @@ import {OrderService} from "./services/data/orders/order.service";
 export class AppComponent implements OnDestroy{
   title = 'AutomationShop';
 
-  constructor(private orderService:OrderService) {
-  }
-  ngOnDestroy(): void {
-    let orderId:number=Number.parseInt(<string>localStorage.getItem("orderId"));
+ // @HostListener('document:visibilitychange', ['$event'])
+ // unloadHandler($event: Event) {
+  //  let cart:Order=<Order> await this.shoppingCart.getCart();
+   // this.orderService.deleteOrder(cart);
+   // if(localStorage.getItem("orderId")) localStorage.removeItem("orderId");
+   // if(localStorage.getItem("token")) localStorage.removeItem("token");
+ // }
 
+
+  constructor(private orderService:OrderService,private shoppingCart:ShoppingCartService) {
   }
+
+ async  ngOnDestroy() {
+    
+      let cart:Order=<Order> await this.shoppingCart.getCart();
+     this.orderService.deleteOrder(cart);
+     if(localStorage.getItem("orderId")) localStorage.removeItem("orderId");
+     if(localStorage.getItem("token")) localStorage.removeItem("token");
+  }
+
+
 }

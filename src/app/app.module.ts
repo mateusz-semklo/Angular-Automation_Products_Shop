@@ -40,6 +40,7 @@ import {CartsService} from "./services/data/carts/carts.service";
 import { ProductQuantityComponent } from './components/product-quantity/product-quantity.component';
 import { ShoppingCartSummaryComponent } from './components/user/shopping-cart-summary/shopping-cart-summary.component';
 import {AppErrorHandler} from "./common/errors/AppErrorHandler";
+import { InfoComponent } from './components/info/info.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import {AppErrorHandler} from "./common/errors/AppErrorHandler";
     ProductFilterComponent,
     ProductCardComponent,
     ProductQuantityComponent,
-    ShoppingCartSummaryComponent
+    ShoppingCartSummaryComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ import {AppErrorHandler} from "./common/errors/AppErrorHandler";
       {path: '', component: ProductsComponent},
       {path: 'shopping-cart', component: ShoppingCartComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'info', component: InfoComponent},
 
       {path: 'user/check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
       {path: 'user/order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuardService]},

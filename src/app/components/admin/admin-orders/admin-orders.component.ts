@@ -45,7 +45,7 @@ export class AdminOrdersComponent {
     }
     return totalPrice;
   }
-
+/////
   getTotalQuantity() {
     let totalQuantity: number = 0;
     if (this.orders) {
