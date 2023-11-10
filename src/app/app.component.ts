@@ -8,7 +8,7 @@ import {ShoppingCartService} from "./services/shopping-cart/shopping-cart.servic
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy{
+export class AppComponent{
   title = 'AutomationShop';
 
  // @HostListener('document:visibilitychange', ['$event'])
@@ -19,17 +19,9 @@ export class AppComponent implements OnDestroy{
    // if(localStorage.getItem("token")) localStorage.removeItem("token");
  // }
 
-
   constructor(private orderService:OrderService,private shoppingCart:ShoppingCartService) {
   }
 
- async  ngOnDestroy() {
-    
-      let cart:Order=<Order> await this.shoppingCart.getCart();
-     this.orderService.deleteOrder(cart);
-     if(localStorage.getItem("orderId")) localStorage.removeItem("orderId");
-     if(localStorage.getItem("token")) localStorage.removeItem("token");
-  }
 
 
 }

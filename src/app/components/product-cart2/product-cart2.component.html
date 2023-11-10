@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <img [src]="product.productImageUrl" *ngIf="product.productImageUrl" class="img-thumbnail rounded"
+           [alt]="product.productName">
+    </div>
+    <div class="col-sm-6">
+      <div class="card-body">
+        <h5 class="card-title">{{product.productName}}</h5>
+        <p class="card-text mt-3">{{product.productDescription}}</p>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p class="card-text">Numer produktu: {{product.productId}}</p>
+      <h4 class="card-text">{{product.productPrice | currency:'PLN'}}</h4>
+      <div class="card-footer" *ngIf="showAction">
+        <button *ngIf="cartItem?.count===0 || cartItem==null; else updateBlock" class="btn btn-secondary w-100" (click)="addToCart()">
+          Dodaj do koszyka
+        </button>
+        <ng-template #updateBlock>
+          <product-quantity [product]="product" [cartItem]="cartItem" (eventCartItem)="getCartItem($event)"></product-quantity>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+

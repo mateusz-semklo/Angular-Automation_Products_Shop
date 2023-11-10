@@ -41,6 +41,7 @@ import { ProductQuantityComponent } from './components/product-quantity/product-
 import { ShoppingCartSummaryComponent } from './components/user/shopping-cart-summary/shopping-cart-summary.component';
 import {AppErrorHandler} from "./common/errors/AppErrorHandler";
 import { InfoComponent } from './components/info/info.component';
+import { ProductCart2Component } from './components/product-cart2/product-cart2.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { InfoComponent } from './components/info/info.component';
     ProductCardComponent,
     ProductQuantityComponent,
     ShoppingCartSummaryComponent,
-    InfoComponent
+    InfoComponent,
+    ProductCart2Component
   ],
   imports: [
     BrowserModule,
