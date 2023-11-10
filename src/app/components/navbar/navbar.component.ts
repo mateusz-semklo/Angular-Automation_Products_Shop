@@ -12,6 +12,7 @@ import {Order} from "../../models/Order";
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  collapsed = true;
   quantity: number = 0;
   private subscriptionQuantity: Subscription = new Subscription();
 

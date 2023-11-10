@@ -20,7 +20,7 @@
     <td>{{order.orderDate}}</td>
     <td>{{ getTotalQuantityOrder(order)}}</td>
     <td>{{getTotalPriceOrder(order) | currency : 'PLN '}}</td>
-    <th><button class="btn btn-secondary" (click)="deleteOrder(order)">Usuń</button></th>
+    <th><button class="btn btn-sm btn-secondary" (click)="deleteOrder(order)">Usuń</button></th>
   </tr>
   </tbody>
   <tfoot>
