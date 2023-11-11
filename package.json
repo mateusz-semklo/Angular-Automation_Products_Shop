@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy:gh": "ng build --base-href='https://mateusz-semklo.github.io/Angular-Automation_Products_Shop/' && ngh --dir=dist"
   },
   "private": true,
   "dependencies": {
