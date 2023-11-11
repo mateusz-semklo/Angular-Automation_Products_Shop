@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class UrlsService {
 
   urls:Map<string,string>;
-  serverUrl:string="http://localhost:8080";
+  //serverUrl:string="http://localhost:8080";
+  serverUrl:string="https://infinite-crag-10033-9a1c63145ebd.herokuapp.com";
   constructor() {
     this.urls = new Map();
     this.urls.set("images",this.serverUrl);
