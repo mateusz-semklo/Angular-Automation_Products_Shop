@@ -117,8 +117,7 @@ import { ProductCart2Component } from './components/product-cart2/product-cart2.
     PaginatorIntlService,
     UrlsService,
     ShoppingCartService,
-    CartsService,
-    {provide:ErrorHandler,useClass:AppErrorHandler}
+    CartsService
   ],
   bootstrap: [AppComponent]
 })
