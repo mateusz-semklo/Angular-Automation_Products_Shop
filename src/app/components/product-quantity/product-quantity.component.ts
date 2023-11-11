@@ -32,8 +32,6 @@ export class ProductQuantityComponent {
 
   async ngOnInit() {
     this.cartItem=await this.shoppingCartService.getCartItem(this.product);
-    console.log("cartItem get from ngInit in product-cart");
-    console.log(this.cartItem);
   }
 
 }

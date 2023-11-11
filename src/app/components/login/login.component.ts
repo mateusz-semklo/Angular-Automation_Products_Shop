@@ -23,7 +23,6 @@ export class LoginComponent {
   }
 
   signIn() {
-    console.log(this.form.value);
     this.auth.login(this.form.value)
       .subscribe({
           next: (result) => {

@@ -96,8 +96,9 @@ export class ShoppingCartService{
 
   async getCart() {
     let orderId: string | null = localStorage.getItem("orderId");
-    if (orderId)
+    if (orderId) {
       return <Order>await firstValueFrom(this.ordersService.getById(Number.parseInt(orderId)));
+    }
     else return null;
   }
 

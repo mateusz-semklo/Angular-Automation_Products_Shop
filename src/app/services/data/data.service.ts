@@ -89,7 +89,6 @@ export class DataService {
     })
       .pipe(
         map((response) => {
-          console.log(response);
           return response.body;
         }),
         catchError((error: HttpResponse<any>) => {
